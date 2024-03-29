@@ -13,18 +13,18 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey.shade200,
-      body: Container(
+      body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(
-              height: 50,
+              height: 20,
             ),
-            Image.asset(
-              'assets/images/landing.jpeg',
-            ),
+            Image.asset('assets/images/landing.jpeg', fit: BoxFit.contain),
             const SizedBox(
-              height: 50,
+              height: 20,
             ),
             MyTextField(
               controller: usernameController,
@@ -46,9 +46,11 @@ class LoginPage extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            Text(
-              'Forgot Password',
-              style: TextStyle(color: Colors.grey.shade600),
+            Center(
+              child: Text(
+                'Forgot Password',
+                style: TextStyle(color: Colors.grey.shade600),
+              ),
             ),
             const SizedBox(
               height: 20,
@@ -68,7 +70,7 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Sing Up',
+                  'Sign Up',
                   style: TextStyle(
                     color: Colors.grey.shade600,
                     fontSize: 13,
