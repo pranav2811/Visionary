@@ -11,14 +11,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'BlindApp',
       theme: ThemeData(
-        // Define your app's theme here
       ),
-      // Set the initialRoute to your landing page route
       initialRoute: '/landing', 
-      // Define the routes for your app
+      
       routes: {
         '/landing': (context) => LandingPage(), // Landing page route
-        // Add other routes if needed
       },
     );
   }
