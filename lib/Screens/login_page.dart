@@ -1,8 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:blindapp/Screens/forgot_password.dart';
+import 'package:blindapp/Screens/landingpage.dart';
 import 'package:blindapp/components/my_textfield.dart';
 import 'package:blindapp/components/my_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -82,7 +85,12 @@ class LoginPage extends StatelessWidget {
             Center(
               child: GestureDetector(
                 onTap: () {
-                  print("Forgot Password Clicked");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ForgotPasswordPage(),
+                    ),
+                  );
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(right: 35.0),
@@ -117,13 +125,23 @@ class LoginPage extends StatelessWidget {
                     fontSize: 13,
                   ),
                 ),
-                Text(
-                  'Sign Up',
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                    decoration: TextDecoration.underline,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LandingPage(),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    'Sign Up',
+                    style: TextStyle(
+                      color: Colors.grey.shade600,
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    ),
                   ),
                 ),
               ],
