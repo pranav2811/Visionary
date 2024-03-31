@@ -2,8 +2,8 @@ import 'package:blindapp/components/imageButton.dart';
 import 'package:blindapp/components/my_button.dart';
 import 'package:flutter/material.dart';
 
-class VolunterSignup extends StatelessWidget {
-  VolunterSignup({super.key});
+class UserSignup extends StatelessWidget {
+  UserSignup({super.key});
 
   final nameController = TextEditingController();
   final emailController = TextEditingController();
@@ -159,56 +159,6 @@ class VolunterSignup extends StatelessWidget {
             ),
             const SizedBox(
               height: 10,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // const Text(
-                  //   "Aadhar Number",
-                  //   style: TextStyle(
-                  //     fontSize: 20,
-                  //     fontWeight: FontWeight.bold,
-                  //   ),
-                  // ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 50,
-                        width: 371,
-                        child: TextField(
-                          controller: aadharController,
-                          decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.grey.shade300),
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.blue,
-                              ),
-                            ),
-                            fillColor: Colors.white,
-                            filled: true,
-                            // prefixIcon: Icon(
-                            //   prefixIconData,
-                            //   color: prefixIconColor,
-                            // ),
-                            hintText: "Aadhar Number",
-                            hintStyle: TextStyle(
-                              color: Colors.grey.shade700,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
             ),
             const SizedBox(
               height: 10,

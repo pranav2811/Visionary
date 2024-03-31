@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:blindapp/Screens/login_page.dart';
-import 'package:blindapp/Screens/user_assistance.dart';
+import 'package:blindapp/Screens/user_signup.dart';
 import 'package:blindapp/Screens/volunteer_signup.dart';
 
 class LandingPage extends StatefulWidget {
