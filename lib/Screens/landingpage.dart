@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:blindapp/Screens/login_page.dart';
+import 'package:blindapp/Screens/user_assistance.dart';
+import 'package:blindapp/Screens/volunteer_signup.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -30,58 +32,66 @@ class _LandingPageState extends State<LandingPage> {
                   fit: BoxFit.fill,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30.0,
               ),
               ElevatedButton(
                 onPressed: () {
                   // Handle "I Need Assistance" button press
+                  //route to user_assistance.dart
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => UserSignup()));
                 },
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Color(0xffEE7B23),
+                  foregroundColor: Colors.blue, //Color(0xffEE7B23),
                   padding:
                       EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
                   ),
                 ),
-                child: Text(
+                child: const Text(
                   'I Need Assistance',
                   style: TextStyle(fontSize: 16.0),
                 ),
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: () {
                   // Handle "I Am Here to Volunteer" button press
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => VolunterSignup()));
                 },
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Color(0xffEE7B23),
-                  padding:
-                      EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
+                  foregroundColor: Colors.blue, //Color(0xffEE7B23),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 15.0, horizontal: 30.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
                   ),
                 ),
-                child: Text(
+                child: const Text(
                   'I Am Here to Volunteer',
                   style: TextStyle(fontSize: 16.0),
                 ),
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               GestureDetector(
                 onTap: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => LoginPage()));
                 },
-                child: Text.rich(
+                child: const Text.rich(
                   TextSpan(text: 'Already have an account? ', children: [
                     TextSpan(
                       text: 'SignIn',
-                      style: TextStyle(color: Color(0xffEE7B23)),
+                      style:
+                          TextStyle(color: Colors.blue), //Color(0xffEE7B23)),
                     ),
                   ]),
                 ),
