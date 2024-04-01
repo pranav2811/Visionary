@@ -1,7 +1,5 @@
-import 'package:blindapp/components/my_button.dart';
 import 'package:blindapp/components/my_textfield.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   ForgotPasswordPage({super.key});
@@ -15,7 +13,7 @@ class ForgotPasswordPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Image.asset(
@@ -23,7 +21,7 @@ class ForgotPasswordPage extends StatelessWidget {
               height: 350,
               width: 350,
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             const Padding(
@@ -49,7 +47,7 @@ class ForgotPasswordPage extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             MyTextField(
@@ -60,7 +58,7 @@ class ForgotPasswordPage extends StatelessWidget {
                 prefixIconColor: Colors.blue,
                 textFieldHeight: 60,
                 textFieldWidth: 350),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Center(
