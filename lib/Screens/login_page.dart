@@ -2,10 +2,10 @@
 
 import 'package:blindapp/Screens/forgot_password.dart';
 import 'package:blindapp/Screens/landingpage.dart';
-import 'package:blindapp/components/my_textfield.dart';
+import 'package:blindapp/Screens/user_home.dart';
 import 'package:blindapp/components/my_button.dart';
+import 'package:blindapp/components/my_textfield.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -112,8 +112,18 @@ class LoginPage extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            MyButton(
-              buttonText: "Login",
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UserHome(),
+                  ),
+                );
+              },
+              child: MyButton(
+                buttonText: "Login",
+              ),
             ),
             const SizedBox(
               height: 20,
