@@ -1,17 +1,40 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:blindapp/Screens/forgot_password.dart';
-import 'package:blindapp/Screens/landingpage.dart';
-import 'package:blindapp/Screens/user_home.dart';
+import 'package:blindapp/Screens/forgotPasswordScreen.dart';
+import 'package:blindapp/Screens/landingPage.dart';
+import 'package:blindapp/Screens/userHomePage.dart';
 import 'package:blindapp/components/my_button.dart';
 import 'package:blindapp/components/my_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
-  final usernameController = TextEditingController();
+  FirebaseAuth auth = FirebaseAuth.instance;
+
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  Future<void> signInWithEmailAndPassword(BuildContext context) async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => UserHome(),
+        ),
+      );
+    } catch (e) {
+      print('Sign-in Error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Failed to sign in. Please check your credentials.')));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +84,7 @@ class LoginPage extends StatelessWidget {
             MyTextField(
               textFieldHeight: 60,
               textFieldWidth: 350,
-              controller: usernameController,
+              controller: emailController,
               hintText: 'username',
               obsecureText: false,
               prefixIconData: Icons.person,
@@ -114,12 +137,7 @@ class LoginPage extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => UserHome(),
-                  ),
-                );
+                signInWithEmailAndPassword(context);
               },
               child: MyButton(
                 buttonText: "Login",

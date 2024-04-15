@@ -1,4 +1,4 @@
-import 'package:blindapp/components/circularButton.dart';
+import 'package:blindapp/components/circular_button.dart';
 import 'package:flutter/material.dart';
 
 class UserHome extends StatelessWidget {

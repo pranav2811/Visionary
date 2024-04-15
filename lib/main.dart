@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:blindapp/Screens/landingpage.dart'; // Import your landing page file here
+import 'package:blindapp/Screens/landingPage.dart'; // Import your landing page file here
 
 void main() {
   runApp(MyApp());

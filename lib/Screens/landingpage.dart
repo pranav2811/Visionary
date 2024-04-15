@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:blindapp/Screens/login_page.dart';
-import 'package:blindapp/Screens/user_signup.dart';
-import 'package:blindapp/Screens/volunteer_signup.dart';
+import 'package:blindapp/Screens/loginPage.dart';
+import 'package:blindapp/Screens/userSignupPage.dart';
+import 'package:blindapp/Screens/volunteerSignupPage.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});

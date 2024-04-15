@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "318943444358",
+    "project_id": "assistanceapp-b39fd",
+    "storage_bucket": "assistanceapp-b39fd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:318943444358:android:2123418c30f4297bb7c007",
+        "android_client_info": {
+          "package_name": "com.example.blindapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6ppS6MSACZ34S4A-K1_2fZNKoyYwFSlg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
