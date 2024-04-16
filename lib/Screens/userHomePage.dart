@@ -1,3 +1,4 @@
+import 'package:blindapp/Screens/loginPage.dart';
 import 'package:blindapp/components/circular_button.dart';
 import 'package:flutter/material.dart';
 
@@ -132,7 +133,9 @@ class UserHome extends StatelessWidget {
               height: 20,
             ),
             ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  _showLogoutConfirmationDialog(context);
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.lightBlue,
                   fixedSize: Size(300, 50),
@@ -146,4 +149,41 @@ class UserHome extends StatelessWidget {
       ),
     );
   }
+}
+
+void _showLogoutConfirmationDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("Logout Confirmation"),
+        content: Text("Are you sure you want to logout?"),
+        actions: <Widget>[
+          TextButton(
+            child: Text("No"),
+            onPressed: () {
+              Navigator.of(context).pop(); // Dismiss the dialog
+            },
+          ),
+          TextButton(
+            child: Text("Yes"),
+            onPressed: () {
+              Navigator.of(context).pop(); // Dismiss the dialog
+              _logoutAndRedirect(context);
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void _logoutAndRedirect(BuildContext context) {
+  // Perform logout logic here, e.g., clear user session
+
+  // Navigate to the sign-in page
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (context) => LoginPage()),
+  );
 }
