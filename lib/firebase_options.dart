@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -28,15 +25,9 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -65,4 +56,32 @@ class DefaultFirebaseOptions {
     storageBucket: 'assistanceapp-b39fd.appspot.com',
     iosBundleId: 'com.example.blindapp',
   );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyC7_OOyX--1WaGZteOgDROLsHL8OMKv0oQ',
+    appId: '1:318943444358:web:3d2af90cdeee3e8eb7c007',
+    messagingSenderId: '318943444358',
+    projectId: 'assistanceapp-b39fd',
+    authDomain: 'assistanceapp-b39fd.firebaseapp.com',
+    storageBucket: 'assistanceapp-b39fd.appspot.com',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyD1xf1g_vWQ2x6iqXiVu3quPlcZyJ2iNtA',
+    appId: '1:318943444358:ios:4267778e62d59ba0b7c007',
+    messagingSenderId: '318943444358',
+    projectId: 'assistanceapp-b39fd',
+    storageBucket: 'assistanceapp-b39fd.appspot.com',
+    iosBundleId: 'com.assistanceapp.app',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyC7_OOyX--1WaGZteOgDROLsHL8OMKv0oQ',
+    appId: '1:318943444358:web:4d490e2e55d4e547b7c007',
+    messagingSenderId: '318943444358',
+    projectId: 'assistanceapp-b39fd',
+    authDomain: 'assistanceapp-b39fd.firebaseapp.com',
+    storageBucket: 'assistanceapp-b39fd.appspot.com',
+  );
+
 }

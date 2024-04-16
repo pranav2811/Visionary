@@ -11,7 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
-  FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -23,6 +23,7 @@ class LoginPage extends StatelessWidget {
         email: emailController.text,
         password: passwordController.text,
       );
+      print("successful login");
       Navigator.push(
         context,
         MaterialPageRoute(

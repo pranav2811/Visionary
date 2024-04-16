@@ -65,6 +65,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
+  cloud_firestore:
+    dependency: "direct main"
+    description:
+      name: cloud_firestore
+      sha256: "6a01b0d9e498c0e3f138c72e182f79c312c3d60111fcc3ece0d0642dff3d5027"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.16.1"
+  cloud_firestore_platform_interface:
+    dependency: transitive
+    description:
+      name: cloud_firestore_platform_interface
+      sha256: "222d616f1dad9dcbea25763b4713b99aff20c08d6c7a8611eacdad19dd978bcc"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.13"
+  cloud_firestore_web:
+    dependency: transitive
+    description:
+      name: cloud_firestore_web
+      sha256: "25e1f946cc9e79b97c7e668f2b9913c48aad8509e1c9e2c9dfdc48be6f25423a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.11.1"
   collection:
     dependency: transitive
     description:
@@ -97,6 +121,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
+  firebase_app_check:
+    dependency: "direct main"
+    description:
+      name: firebase_app_check
+      sha256: "6477f520f09934e73be245632108e428399b33d594c95520d016005ebd20ee30"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.2+1"
+  firebase_app_check_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_app_check_platform_interface
+      sha256: ea4f3c44a07820bd6f9d94e5664e9aa21b138ed61b2de87220289128672ad967
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0+23"
+  firebase_app_check_web:
+    dependency: transitive
+    description:
+      name: firebase_app_check_web
+      sha256: "4a4fff0589acc04fbd2d3125c3a95b606a0f9ea4bfe189b72c446c0795707ddd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2+1"
   firebase_auth:
     dependency: "direct main"
     description:
@@ -122,7 +170,7 @@ packages:
     source: hosted
     version: "5.11.1"
   firebase_core:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: firebase_core
       sha256: a864d1b6afd25497a3b57b016886d1763df52baaa69758a46723164de8d187fe
@@ -192,6 +240,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  intl_phone_field:
+    dependency: "direct main"
+    description:
+      name: intl_phone_field
+      sha256: "73819d3dfcb68d2c85663606f6842597c3ddf6688ac777f051b17814fe767bbf"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.0"
   iris_method_channel:
     dependency: transitive
     description:

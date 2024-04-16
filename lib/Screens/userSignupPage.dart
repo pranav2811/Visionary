@@ -1,31 +1,55 @@
+import 'package:blindapp/Screens/loginPage.dart';
+import 'package:blindapp/Screens/userHomePage.dart';
 import 'package:blindapp/components/image_button.dart';
 import 'package:blindapp/components/my_button.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class UserSignup extends StatelessWidget {
+final FirebaseAuth _auth = FirebaseAuth.instance;
+
+class UserSignup extends StatefulWidget {
   UserSignup({super.key});
 
-  final nameController = TextEditingController();
-  final emailController = TextEditingController();
-  final aadharController = TextEditingController();
-  final phoneController = TextEditingController();
-  final passwordController = TextEditingController();
+  @override
+  State<UserSignup> createState() => _UserSignupState();
+}
 
-  Future<void> signUpWithEmailAndPassowrd(BuildContext context) async {
-    try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-              email: emailController.text, password: passwordController.text);
-    } catch (e) {
-      print('Sign-up error: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Failed to signup. Please try again'),
-        ),
-      );
+class _UserSignupState extends State<UserSignup> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController aadharController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  late bool _success = false;
+  late String _userEmail;
+
+  void _register() async {
+    final User? user = (await _auth.createUserWithEmailAndPassword(
+      email: emailController.text,
+      password: passwordController.text,
+    ))
+        .user;
+    print("inside register");
+
+    if (user != null) {
+      setState(() {
+        _success = true;
+        _userEmail = user.email!;
+        print("success");
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => LoginPage()));
+      });
+    } else {
+      setState(() {
+        _success = false;
+      });
     }
   }
+
+  bool nameIsEmpty = false;
+  bool phoneIsEmpty = false;
+  bool emailIsEmpty = false;
+  bool passwordIsEmpty = false;
 
   @override
   Widget build(BuildContext context) {
@@ -34,17 +58,13 @@ class UserSignup extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             Image.asset(
               'assets/images/registration.jpg',
               width: 250,
               height: 250,
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             const Padding(
               padding: EdgeInsets.only(left: 20),
               child: Column(
@@ -60,28 +80,20 @@ class UserSignup extends StatelessWidget {
                   Text(
                     'Enter your personal information',
                     style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold),
+                      fontSize: 12,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // const Text(
-                  //   "Full Name",
-                  //   style: TextStyle(
-                  //     fontSize: 20,
-                  //     fontWeight: FontWeight.bold,
-                  //   ),
-                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -97,16 +109,10 @@ class UserSignup extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.blue,
-                              ),
+                              borderSide: BorderSide(color: Colors.blue),
                             ),
                             fillColor: Colors.white,
                             filled: true,
-                            // prefixIcon: Icon(
-                            //   prefixIconData,
-                            //   color: prefixIconColor,
-                            // ),
                             hintText: "Full Name",
                             hintStyle: TextStyle(
                               color: Colors.grey.shade700,
@@ -120,21 +126,12 @@ class UserSignup extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             Padding(
               padding: EdgeInsets.only(left: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // const Text(
-                  //   "Email-ID",
-                  //   style: TextStyle(
-                  //     fontSize: 20,
-                  //     fontWeight: FontWeight.bold,
-                  //   ),
-                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -150,16 +147,10 @@ class UserSignup extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.blue,
-                              ),
+                              borderSide: BorderSide(color: Colors.blue),
                             ),
                             fillColor: Colors.white,
                             filled: true,
-                            // prefixIcon: Icon(
-                            //   prefixIconData,
-                            //   color: prefixIconColor,
-                            // ),
                             hintText: "Email-Id",
                             hintStyle: TextStyle(
                               color: Colors.grey.shade700,
@@ -173,24 +164,13 @@ class UserSignup extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
+            const SizedBox(height: 10),
             Padding(
               padding: EdgeInsets.only(left: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // const Text(
-                  //   "Email-ID",
-                  //   style: TextStyle(
-                  //     fontSize: 20,
-                  //     fontWeight: FontWeight.bold,
-                  //   ),
-                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -206,16 +186,10 @@ class UserSignup extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.blue,
-                              ),
+                              borderSide: BorderSide(color: Colors.blue),
                             ),
                             fillColor: Colors.white,
                             filled: true,
-                            // prefixIcon: Icon(
-                            //   prefixIconData,
-                            //   color: prefixIconColor,
-                            // ),
                             hintText: "Phone Number",
                             hintStyle: TextStyle(
                               color: Colors.grey.shade700,
@@ -229,21 +203,12 @@ class UserSignup extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             Padding(
               padding: EdgeInsets.only(left: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // const Text(
-                  //   "Password",
-                  //   style: TextStyle(
-                  //     fontSize: 20,
-                  //     fontWeight: FontWeight.bold,
-                  //   ),
-                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -259,16 +224,10 @@ class UserSignup extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.blue,
-                              ),
+                              borderSide: BorderSide(color: Colors.blue),
                             ),
                             fillColor: Colors.white,
                             filled: true,
-                            // prefixIcon: Icon(
-                            //   prefixIconData,
-                            //   color: prefixIconColor,
-                            // ),
                             hintText: "Password",
                             hintStyle: TextStyle(
                               color: Colors.grey.shade700,
@@ -282,31 +241,148 @@ class UserSignup extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            MyButton(
-              buttonText: "Register",
-            ),
             const SizedBox(height: 10),
-            Center(
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF0DF5E3),
+                  minimumSize: const Size(250, 60),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                  textStyle: const TextStyle(
+                      color: Color(0xFF201A30), fontWeight: FontWeight.bold)),
+              onPressed: () {
+                _register();
+
+                // setState(
+                //   () async {
+                //     if (nameController.text.isEmpty) {
+                //       nameIsEmpty = true;
+                //     }
+                //     if (emailController.text.isEmpty) {
+                //       emailIsEmpty = true;
+                //     }
+                //     if (phoneController.text.isEmpty) {
+                //       emailIsEmpty = true;
+                //     }
+                //     if (passwordController.text.isEmpty) {
+                //       emailIsEmpty = true;
+                //     }
+                //     if (nameController.text.isNotEmpty &&
+                //         emailController.text.isNotEmpty &&
+                //         phoneController.text.isNotEmpty &&
+                //         passwordController.text.isNotEmpty) {
+                //       nameIsEmpty = false;
+                //       emailIsEmpty = false;
+                //       phoneIsEmpty = false;
+                //       passwordIsEmpty = false;
+                //       try {
+                //         await FirebaseAuth.instance
+                //             .createUserWithEmailAndPassword(
+                //                 email: nameController.text,
+                //                 password: passwordController.text);
+                //         Navigator.push(
+                //             context,
+                //             MaterialPageRoute(
+                //                 builder: (context) => UserHome()));
+                //       } on FirebaseAuthException catch (e) {
+                //         if (e.code == 'weak-password') {
+                //           debugPrint('The password provided is too weak.');
+                //         } else if (e.code == 'email-already-in-use') {
+                //           debugPrint(
+                //               'The account already exists for that email.');
+                //         }
+                //       } catch (e) {
+                //         ScaffoldMessenger.of(context).showSnackBar(
+                //           SnackBar(
+                //             content: Text(e.toString()),
+                //           ),
+                //         );
+                //       }
+                //       // _navigateToLoginScreen(context);
+                //     }
+                //   },
+                // );
+              },
+              child: const Text(
+                "SIGN UP",
+                style: TextStyle(fontSize: 20, color: Color(0xFF201A30)),
+              ),
+            ),
+            // GestureDetector (
+            //   child: MyButton(buttonText: "Register"),
+            //   onTap: () async {
+            //     setState(() async{
+
+            //     if (nameController.text.isEmpty) {
+            //       nameIsEmpty = true;
+            //     }
+            //     if (emailController.text.isEmpty) {
+            //       emailIsEmpty = true;
+            //     }
+            //     if (phoneController.text.isEmpty) {
+            //       phoneIsEmpty = true;
+            //     }
+            //     if (passwordController.text.isEmpty) {
+            //       passwordIsEmpty = true;
+            //     }
+            //     if (nameController.text.isNotEmpty &&
+            //         emailController.text.isNotEmpty &&
+            //         phoneController.text.isNotEmpty &&
+            //         passwordController.text.isNotEmpty) {
+            //       nameIsEmpty = false;
+            //       emailIsEmpty = false;
+            //       phoneIsEmpty = false;
+            //       passwordIsEmpty = false;
+            //       try {
+            //         await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            //           email: emailController.text,
+            //           password: passwordController.text,
+            //         );
+            //         Navigator.of(context).pushReplacement(
+            //           MaterialPageRoute(builder: (context) => LoginPage()),
+            //         );
+            //       } on FirebaseAuthException catch (e) {
+            //         if (e.code == 'weak-password') {
+            //           debugPrint('The password provided is too weak.');
+            //         } else if (e.code == 'email-already-in-use') {
+            //           debugPrint('The account already exists for that email.');
+            //         } else {
+            //           ScaffoldMessenger.of(context).showSnackBar(
+            //             SnackBar(
+            //                 content: Text(e.message ?? 'An error occurred')),
+            //           );
+            //         }
+            //       } catch (e) {
+            //         ScaffoldMessenger.of(context).showSnackBar(
+            //           SnackBar(content: Text(e.toString(),),),
+            //         );
+            //       }
+            //     }
+            //     });
+            //   },
+
+            // ),
+            const SizedBox(height: 10),
+            const Center(
               child: Text("-------------- Or Sign up With --------------"),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ImageButton(
-                    onPressed: () {
-                      print('google signup clicked');
-                    },
-                    icon: AssetImage('assets/images/google.png'),
-                    size: 55),
+                  onPressed: () {
+                    print('google signup clicked');
+                  },
+                  icon: const AssetImage('assets/images/google.png'),
+                  size: 55,
+                ),
                 ImageButton(
-                    onPressed: () {
-                      print('facebook signup clicked');
-                    },
-                    icon: AssetImage('assets/images/facebook.png'),
-                    size: 55)
+                  onPressed: () {
+                    print('facebook signup clicked');
+                  },
+                  icon: const AssetImage('assets/images/facebook.png'),
+                  size: 55,
+                )
               ],
             )
           ],
