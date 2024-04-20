@@ -1,4 +1,5 @@
 import 'package:blindapp/Screens/loginPage.dart';
+import 'package:blindapp/Screens/videoCallPage.dart';
 import 'package:blindapp/components/circular_button.dart';
 import 'package:flutter/material.dart';
 
@@ -64,12 +65,46 @@ class UserHome extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const SizedBox(height: 20),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      CircularButton(icon: Icon(Icons.call)),
-                      CircularButton(icon: Icon(Icons.call)),
-                      CircularButton(icon: Icon(Icons.call)),
+                      CircularButton(
+                        icon: Icon(Icons.call),
+                        onPressedButton: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => VideoCallScreen()),
+                          );
+                        },
+                        // onPressedButton: () {
+                        //   Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => VideoCallScreen()),
+                        //   );
+                        // },
+                      ),
+                      CircularButton(
+                        icon: Icon(Icons.call),
+                        onPressedButton: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => VideoCallScreen()),
+                          );
+                        },
+                      ),
+                      CircularButton(
+                        icon: Icon(Icons.call),
+                        onPressedButton: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => VideoCallScreen()),
+                          );
+                        },
+                      ),
                     ],
                   ),
                   const SizedBox(
