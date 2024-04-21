@@ -1,7 +1,12 @@
+import 'package:blindapp/Screens/loginPage.dart';
 import 'package:blindapp/components/image_button.dart';
 import 'package:blindapp/components/my_button.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/widgets.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class VolunterSignup extends StatelessWidget {
   VolunterSignup({super.key});
@@ -335,8 +340,19 @@ class VolunterSignup extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            MyButton(
-              buttonText: "Register",
+            GestureDetector(
+              child: MyButton(
+                buttonText: "Register",
+              ),
+              onTap: () {
+                signUpWithEmailAndPassowrd(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginPage(),
+                  ),
+                );
+              },
             ),
             const SizedBox(height: 10),
             Center(

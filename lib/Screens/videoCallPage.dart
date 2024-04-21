@@ -40,7 +40,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
             children: [
               AgoraVideoViewer(
                 client: _client,
-                layoutType: Layout.oneToOne,
+                layoutType: Layout.grid,
                 showNumberOfUsers: false,
               ),
               AgoraVideoButtons(
