@@ -4,6 +4,7 @@ import 'package:blindapp/components/image_button.dart';
 import 'package:blindapp/components/my_button.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/widgets.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -242,70 +243,66 @@ class _UserSignupState extends State<UserSignup> {
               ),
             ),
             const SizedBox(height: 10),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0DF5E3),
-                  minimumSize: const Size(250, 60),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)),
-                  textStyle: const TextStyle(
-                      color: Color(0xFF201A30), fontWeight: FontWeight.bold)),
-              onPressed: () {
+            GestureDetector(
+              onTap: (){
                 _register();
-
-                // setState(
-                //   () async {
-                //     if (nameController.text.isEmpty) {
-                //       nameIsEmpty = true;
-                //     }
-                //     if (emailController.text.isEmpty) {
-                //       emailIsEmpty = true;
-                //     }
-                //     if (phoneController.text.isEmpty) {
-                //       emailIsEmpty = true;
-                //     }
-                //     if (passwordController.text.isEmpty) {
-                //       emailIsEmpty = true;
-                //     }
-                //     if (nameController.text.isNotEmpty &&
-                //         emailController.text.isNotEmpty &&
-                //         phoneController.text.isNotEmpty &&
-                //         passwordController.text.isNotEmpty) {
-                //       nameIsEmpty = false;
-                //       emailIsEmpty = false;
-                //       phoneIsEmpty = false;
-                //       passwordIsEmpty = false;
-                //       try {
-                //         await FirebaseAuth.instance
-                //             .createUserWithEmailAndPassword(
-                //                 email: nameController.text,
-                //                 password: passwordController.text);
-                //         Navigator.push(
-                //             context,
-                //             MaterialPageRoute(
-                //                 builder: (context) => UserHome()));
-                //       } on FirebaseAuthException catch (e) {
-                //         if (e.code == 'weak-password') {
-                //           debugPrint('The password provided is too weak.');
-                //         } else if (e.code == 'email-already-in-use') {
-                //           debugPrint(
-                //               'The account already exists for that email.');
-                //         }
-                //       } catch (e) {
-                //         ScaffoldMessenger.of(context).showSnackBar(
-                //           SnackBar(
-                //             content: Text(e.toString()),
-                //           ),
-                //         );
-                //       }
-                //       // _navigateToLoginScreen(context);
-                //     }
-                //   },
-                // );
               },
-              child: const Text(
-                "SIGN UP",
-                style: TextStyle(fontSize: 20, color: Color(0xFF201A30)),
+              child: MyButton(
+                buttonText: "Register",
+                
+          
+              
+                  // setState(
+                  //   () async {
+                  //     if (nameController.text.isEmpty) {
+                  //       nameIsEmpty = true;
+                  //     }
+                  //     if (emailController.text.isEmpty) {
+                  //       emailIsEmpty = true;
+                  //     }
+                  //     if (phoneController.text.isEmpty) {
+                  //       emailIsEmpty = true;
+                  //     }
+                  //     if (passwordController.text.isEmpty) {
+                  //       emailIsEmpty = true;
+                  //     }
+                  //     if (nameController.text.isNotEmpty &&
+                  //         emailController.text.isNotEmpty &&
+                  //         phoneController.text.isNotEmpty &&
+                  //         passwordController.text.isNotEmpty) {
+                  //       nameIsEmpty = false;
+                  //       emailIsEmpty = false;
+                  //       phoneIsEmpty = false;
+                  //       passwordIsEmpty = false;
+                  //       try {
+                  //         await FirebaseAuth.instance
+                  //             .createUserWithEmailAndPassword(
+                  //                 email: nameController.text,
+                  //                 password: passwordController.text);
+                  //         Navigator.push(
+                  //             context,
+                  //             MaterialPageRoute(
+                  //                 builder: (context) => UserHome()));
+                  //       } on FirebaseAuthException catch (e) {
+                  //         if (e.code == 'weak-password') {
+                  //           debugPrint('The password provided is too weak.');
+                  //         } else if (e.code == 'email-already-in-use') {
+                  //           debugPrint(
+                  //               'The account already exists for that email.');
+                  //         }
+                  //       } catch (e) {
+                  //         ScaffoldMessenger.of(context).showSnackBar(
+                  //           SnackBar(
+                  //             content: Text(e.toString()),
+                  //           ),
+                  //         );
+                  //       }
+                  //       // _navigateToLoginScreen(context);
+                  //     }
+                  //   },
+                  // );
+                
+                
               ),
             ),
             // GestureDetector (
