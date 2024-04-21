@@ -3,7 +3,6 @@ import 'package:blindapp/components/image_button.dart';
 import 'package:blindapp/components/my_button.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -19,6 +18,7 @@ class VolunterSignup extends StatelessWidget {
 
   Future<void> signUpWithEmailAndPassowrd(BuildContext context) async {
     try {
+      // ignore: unused_local_variable
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: emailController.text, password: passwordController.text);

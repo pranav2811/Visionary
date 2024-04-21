@@ -1,5 +1,4 @@
 import 'package:blindapp/Screens/loginPage.dart';
-import 'package:blindapp/Screens/userHomePage.dart';
 import 'package:blindapp/components/image_button.dart';
 import 'package:blindapp/components/my_button.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +20,9 @@ class _UserSignupState extends State<UserSignup> {
   final TextEditingController aadharController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  // ignore: unused_field
   late bool _success = false;
+  // ignore: unused_field
   late String _userEmail;
 
   void _register() async {
