@@ -68,8 +68,8 @@ class _UserSignupState extends State<UserSignup> {
             const SizedBox(height: 10),
             Image.asset(
               'assets/images/registration.jpg',
-              width: 250,
-              height: 250,
+              width: 300,
+              height: 300,
             ),
             const SizedBox(height: 10),
             const Padding(
@@ -249,6 +249,7 @@ class _UserSignupState extends State<UserSignup> {
               ),
             ),
             const SizedBox(height: 10),
+
             GestureDetector(
               onTap: () {
                 _register();
