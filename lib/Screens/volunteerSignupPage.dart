@@ -3,9 +3,10 @@ import 'package:blindapp/components/image_button.dart';
 import 'package:blindapp/components/my_button.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 class VolunterSignup extends StatelessWidget {
   VolunterSignup({super.key});
@@ -22,6 +23,18 @@ class VolunterSignup extends StatelessWidget {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: emailController.text, password: passwordController.text);
+
+      await _firestore
+          .collection('volunteers')
+          .doc(userCredential.user!.uid)
+          .set({
+        'name': nameController.text,
+        'email': emailController.text,
+        'aadhar': aadharController.text,
+        'phone': phoneController.text,
+        'password': passwordController
+            .text, // Storing passwords in Firestore is not recommended
+      });
     } catch (e) {
       print('Sign-up error: $e');
       ScaffoldMessenger.of(context).showSnackBar(

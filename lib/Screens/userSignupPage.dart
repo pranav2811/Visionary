@@ -1,11 +1,12 @@
 import 'package:blindapp/Screens/loginPage.dart';
 import 'package:blindapp/components/image_button.dart';
 import 'package:blindapp/components/my_button.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/widgets.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 class UserSignup extends StatefulWidget {
   UserSignup({super.key});
@@ -17,7 +18,6 @@ class UserSignup extends StatefulWidget {
 class _UserSignupState extends State<UserSignup> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController aadharController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   // ignore: unused_field
@@ -34,6 +34,11 @@ class _UserSignupState extends State<UserSignup> {
     print("inside register");
 
     if (user != null) {
+      await _firestore.collection('users').doc(user.uid).set({
+        'name': nameController.text,
+        'email': emailController.text,
+        'phone': phoneController.text,
+      });
       setState(() {
         _success = true;
         _userEmail = user.email!;
@@ -245,121 +250,13 @@ class _UserSignupState extends State<UserSignup> {
             ),
             const SizedBox(height: 10),
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 _register();
               },
               child: MyButton(
                 buttonText: "Register",
-                
-          
-              
-                  // setState(
-                  //   () async {
-                  //     if (nameController.text.isEmpty) {
-                  //       nameIsEmpty = true;
-                  //     }
-                  //     if (emailController.text.isEmpty) {
-                  //       emailIsEmpty = true;
-                  //     }
-                  //     if (phoneController.text.isEmpty) {
-                  //       emailIsEmpty = true;
-                  //     }
-                  //     if (passwordController.text.isEmpty) {
-                  //       emailIsEmpty = true;
-                  //     }
-                  //     if (nameController.text.isNotEmpty &&
-                  //         emailController.text.isNotEmpty &&
-                  //         phoneController.text.isNotEmpty &&
-                  //         passwordController.text.isNotEmpty) {
-                  //       nameIsEmpty = false;
-                  //       emailIsEmpty = false;
-                  //       phoneIsEmpty = false;
-                  //       passwordIsEmpty = false;
-                  //       try {
-                  //         await FirebaseAuth.instance
-                  //             .createUserWithEmailAndPassword(
-                  //                 email: nameController.text,
-                  //                 password: passwordController.text);
-                  //         Navigator.push(
-                  //             context,
-                  //             MaterialPageRoute(
-                  //                 builder: (context) => UserHome()));
-                  //       } on FirebaseAuthException catch (e) {
-                  //         if (e.code == 'weak-password') {
-                  //           debugPrint('The password provided is too weak.');
-                  //         } else if (e.code == 'email-already-in-use') {
-                  //           debugPrint(
-                  //               'The account already exists for that email.');
-                  //         }
-                  //       } catch (e) {
-                  //         ScaffoldMessenger.of(context).showSnackBar(
-                  //           SnackBar(
-                  //             content: Text(e.toString()),
-                  //           ),
-                  //         );
-                  //       }
-                  //       // _navigateToLoginScreen(context);
-                  //     }
-                  //   },
-                  // );
-                
-                
               ),
             ),
-            // GestureDetector (
-            //   child: MyButton(buttonText: "Register"),
-            //   onTap: () async {
-            //     setState(() async{
-
-            //     if (nameController.text.isEmpty) {
-            //       nameIsEmpty = true;
-            //     }
-            //     if (emailController.text.isEmpty) {
-            //       emailIsEmpty = true;
-            //     }
-            //     if (phoneController.text.isEmpty) {
-            //       phoneIsEmpty = true;
-            //     }
-            //     if (passwordController.text.isEmpty) {
-            //       passwordIsEmpty = true;
-            //     }
-            //     if (nameController.text.isNotEmpty &&
-            //         emailController.text.isNotEmpty &&
-            //         phoneController.text.isNotEmpty &&
-            //         passwordController.text.isNotEmpty) {
-            //       nameIsEmpty = false;
-            //       emailIsEmpty = false;
-            //       phoneIsEmpty = false;
-            //       passwordIsEmpty = false;
-            //       try {
-            //         await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            //           email: emailController.text,
-            //           password: passwordController.text,
-            //         );
-            //         Navigator.of(context).pushReplacement(
-            //           MaterialPageRoute(builder: (context) => LoginPage()),
-            //         );
-            //       } on FirebaseAuthException catch (e) {
-            //         if (e.code == 'weak-password') {
-            //           debugPrint('The password provided is too weak.');
-            //         } else if (e.code == 'email-already-in-use') {
-            //           debugPrint('The account already exists for that email.');
-            //         } else {
-            //           ScaffoldMessenger.of(context).showSnackBar(
-            //             SnackBar(
-            //                 content: Text(e.message ?? 'An error occurred')),
-            //           );
-            //         }
-            //       } catch (e) {
-            //         ScaffoldMessenger.of(context).showSnackBar(
-            //           SnackBar(content: Text(e.toString(),),),
-            //         );
-            //       }
-            //     }
-            //     });
-            //   },
-
-            // ),
             const SizedBox(height: 10),
             const Center(
               child: Text("-------------- Or Sign up With --------------"),
