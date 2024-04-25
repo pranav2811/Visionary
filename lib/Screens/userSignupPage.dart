@@ -97,7 +97,7 @@ class _UserSignupState extends State<UserSignup> {
             ),
             const SizedBox(height: 10),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding:const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

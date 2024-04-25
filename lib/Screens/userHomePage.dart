@@ -1,5 +1,5 @@
 import 'package:blindapp/Screens/loginPage.dart';
-import 'package:blindapp/Screens/videoCallPage.dart';
+import 'package:blindapp/Screens/volunteerVideoCallPage.dart';
 import 'package:blindapp/components/circular_button.dart';
 import 'package:flutter/material.dart';
 

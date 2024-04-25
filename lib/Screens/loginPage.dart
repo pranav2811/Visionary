@@ -3,8 +3,10 @@
 import 'package:blindapp/Screens/forgotPasswordScreen.dart';
 import 'package:blindapp/Screens/landingPage.dart';
 import 'package:blindapp/Screens/userHomePage.dart';
+import 'package:blindapp/Screens/volunteerHomePage.dart';
 import 'package:blindapp/components/my_button.dart';
 import 'package:blindapp/components/my_textfield.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -12,6 +14,7 @@ class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
   final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -21,20 +24,48 @@ class LoginPage extends StatelessWidget {
       // ignore: unused_local_variable
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
       );
       print("successful login");
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => UserHome(),
-        ),
-      );
+      checkUserRole(userCredential.user!.email!, context);
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => VolunteerHomePage(),
+      //   ),
+      // );
     } catch (e) {
       print('Sign-in Error: $e');
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Failed to sign in. Please check your credentials.')));
+    }
+  }
+
+  Future<void> checkUserRole(String email, BuildContext context) async {
+    var volunteer = await firestore
+        .collection('volunteers')
+        .where('email', isEqualTo: email)
+        .get();
+
+    if (volunteer.docs.isNotEmpty) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => VolunteerHomePage()),
+      );
+      return;
+    }
+
+    var user = await firestore
+        .collection('users')
+        .where('email', isEqualTo: email)
+        .get();
+    if (user.docs.isNotEmpty) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => UserHome()),
+      );
+      return;
     }
   }
 
