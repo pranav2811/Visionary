@@ -32,8 +32,7 @@ class VolunterSignup extends StatelessWidget {
         'email': emailController.text,
         'aadhar': aadharController.text,
         'phone': phoneController.text,
-        'password': passwordController
-            .text, // Storing passwords in Firestore is not recommended
+        // Storing passwords in Firestore is not recommended
       });
     } catch (e) {
       print('Sign-up error: $e');
