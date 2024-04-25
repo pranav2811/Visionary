@@ -45,7 +45,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
               AgoraVideoViewer(
                 client: _client,
                 layoutType: Layout
-                    .floating, // This may need to be adjusted if available layouts do not meet your requirements
+                    .oneToOne, // This may need to be adjusted if available layouts do not meet your requirements
                 showNumberOfUsers: false,
                 // To enforce that the remote user has the bigger picture,
                 // you may need to customize the widget further or handle it via state management.

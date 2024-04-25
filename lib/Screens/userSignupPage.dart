@@ -97,7 +97,7 @@ class _UserSignupState extends State<UserSignup> {
             ),
             const SizedBox(height: 10),
             Padding(
-              padding:const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -249,14 +249,12 @@ class _UserSignupState extends State<UserSignup> {
               ),
             ),
             const SizedBox(height: 10),
-
-            GestureDetector(
-              onTap: () {
-                _register();
+            MyButton(
+              buttonText: "Register",
+              onPressedAsync: () async {
+                _register(); // Call the synchronous function
+                return; // Optional: Makes it explicit that you are conforming to Future<void>
               },
-              child: MyButton(
-                buttonText: "Register",
-              ),
             ),
             const SizedBox(height: 10),
             const Center(

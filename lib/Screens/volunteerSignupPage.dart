@@ -17,7 +17,7 @@ class VolunterSignup extends StatelessWidget {
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
 
-  Future<void> signUpWithEmailAndPassowrd(BuildContext context) async {
+  Future<void> signUpWithEmailAndPassword(BuildContext context) async {
     try {
       // ignore: unused_local_variable
       UserCredential userCredential = await FirebaseAuth.instance
@@ -352,22 +352,21 @@ class VolunterSignup extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            GestureDetector(
-              child: MyButton(
-                buttonText: "Register",
-              ),
-              onTap: () {
-                signUpWithEmailAndPassowrd(context);
+            MyButton(
+              buttonText: "Register",
+              onPressedAsync: () async {
+                await signUpWithEmailAndPassword(
+                    context); // Make sure to await this if it's asynchronous
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => LoginPage(),
-                  ),
+                      builder: (context) =>
+                          LoginPage()), // Replace 'NextPage' with your actual target page
                 );
               },
             ),
             const SizedBox(height: 10),
-            Center(
+            const Center(
               child: Text("-------------- Or Sign up With --------------"),
             ),
             Row(
@@ -377,13 +376,13 @@ class VolunterSignup extends StatelessWidget {
                     onPressed: () {
                       print('google signup clicked');
                     },
-                    icon: AssetImage('assets/images/google.png'),
+                    icon: const AssetImage('assets/images/google.png'),
                     size: 55),
                 ImageButton(
                     onPressed: () {
                       print('facebook signup clicked');
                     },
-                    icon: AssetImage('assets/images/facebook.png'),
+                    icon: const AssetImage('assets/images/facebook.png'),
                     size: 55)
               ],
             )

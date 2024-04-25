@@ -1,4 +1,4 @@
-import 'package:blindapp/Screens/userVideoCallPage.dart';
+import 'package:blindapp/Screens/volunteerVideoCallPage.dart';
 import 'package:flutter/material.dart';
 
 class VolunteerApp extends StatelessWidget {

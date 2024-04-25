@@ -168,13 +168,9 @@ class LoginPage extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            GestureDetector(
-              onTap: () {
-                signInWithEmailAndPassword(context);
-              },
-              child: MyButton(
-                buttonText: "Login",
-              ),
+            MyButton(
+              buttonText: "Login",
+              onPressedAsync: () => signInWithEmailAndPassword(context),
             ),
             const SizedBox(
               height: 20,
