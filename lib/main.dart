@@ -19,20 +19,20 @@ Future<void> main() async {
     firebaseAppCheck.activate(
       androidProvider: AndroidProvider.debug,
     );
-    firebaseAppCheck
-        .getToken()
-        .then((value) => debugPrint("APP CHECK: $value"));
+
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,
     ]);
-    runApp(MyApp());
+    runApp(const MyApp());
   } catch (e) {
     debugPrint("Error initializing Firebase: $e");
   }
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(),
       initialRoute: '/landing',
       routes: {
-        '/landing': (context) => LandingPage(), // Landing page route
+        '/landing': (context) => const LandingPage(), // Landing page route
       },
     );
   }

@@ -46,9 +46,8 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                 client: _client,
                 layoutType: Layout
                     .oneToOne, // This may need to be adjusted if available layouts do not meet your requirements
+                // enableToggleLocalVideoSize: true,
                 showNumberOfUsers: false,
-                // To enforce that the remote user has the bigger picture,
-                // you may need to customize the widget further or handle it via state management.
               ),
               Positioned(
                 bottom: 20,

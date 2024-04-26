@@ -4,7 +4,7 @@ class MyButton extends StatelessWidget {
   final String buttonText;
   final Future<void> Function() onPressedAsync; // Add an onPressed parameter
 
-  MyButton(
+  const MyButton(
       {super.key,
       required this.buttonText,
       required this.onPressedAsync}); // Include onPressed in the constructor

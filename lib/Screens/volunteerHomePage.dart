@@ -2,6 +2,8 @@ import 'package:blindapp/Screens/volunteerVideoCallPage.dart';
 import 'package:flutter/material.dart';
 
 class VolunteerApp extends StatelessWidget {
+  const VolunteerApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -10,24 +12,22 @@ class VolunteerApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: VolunteerHomePage(),
+      home: const VolunteerHomePage(),
     );
   }
 }
 
 class VolunteerHomePage extends StatelessWidget {
+  const VolunteerHomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: const Text('Home'),
         actions: [
           IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: Icon(Icons.menu),
+            icon: const Icon(Icons.menu),
             onPressed: () {},
           ),
         ],
@@ -39,7 +39,7 @@ class VolunteerHomePage extends StatelessWidget {
             CircleAvatar(
               radius: 100,
               backgroundColor: Colors.blue.shade100,
-              child: Icon(Icons.person, size: 130),
+              child: const Icon(Icons.person, size: 130),
             ),
             const SizedBox(height: 20),
             const Text(
@@ -55,10 +55,12 @@ class VolunteerHomePage extends StatelessWidget {
             const SizedBox(height: 30),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => VideoCallScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const VideoCallScreen()));
               },
-              style: ElevatedButton.styleFrom(fixedSize: Size(250, 50)),
+              style: ElevatedButton.styleFrom(fixedSize: const Size(250, 50)),
               child: const Text(
                 'Go Online',
                 style: TextStyle(

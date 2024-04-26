@@ -43,12 +43,12 @@ class _LandingPageState extends State<LandingPage> {
                   // Handle "I Need Assistance" button press
                   //route to user_assistance.dart
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => UserSignup()));
+                      MaterialPageRoute(builder: (context) => const UserSignup()));
                 },
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.blue, //Color(0xffEE7B23),
                   padding:
-                      EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
+                      const EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
                   ),

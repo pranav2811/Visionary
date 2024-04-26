@@ -4,12 +4,15 @@ import 'package:blindapp/components/my_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 class UserSignup extends StatefulWidget {
-  UserSignup({super.key});
+  const UserSignup({super.key});
 
   @override
   State<UserSignup> createState() => _UserSignupState();
@@ -24,7 +27,7 @@ class _UserSignupState extends State<UserSignup> {
   late bool _success = false;
   // ignore: unused_field
   late String _userEmail;
-
+  
   void _register() async {
     final User? user = (await _auth.createUserWithEmailAndPassword(
       email: emailController.text,
@@ -135,7 +138,7 @@ class _UserSignupState extends State<UserSignup> {
             ),
             const SizedBox(height: 10),
             Padding(
-              padding: EdgeInsets.only(left: 20),
+              padding: const EdgeInsets.only(left: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -174,7 +177,7 @@ class _UserSignupState extends State<UserSignup> {
             const SizedBox(height: 10),
             const SizedBox(height: 10),
             Padding(
-              padding: EdgeInsets.only(left: 20),
+              padding: const EdgeInsets.only(left: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -212,7 +215,7 @@ class _UserSignupState extends State<UserSignup> {
             ),
             const SizedBox(height: 10),
             Padding(
-              padding: EdgeInsets.only(left: 20),
+              padding: const EdgeInsets.only(left: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

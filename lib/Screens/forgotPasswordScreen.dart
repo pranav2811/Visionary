@@ -53,7 +53,7 @@ class ForgotPasswordPage extends StatelessWidget {
             Center(
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    fixedSize: Size(200, 50), backgroundColor: Colors.blue),
+                    fixedSize: const Size(200, 50), backgroundColor: Colors.blue),
                 onPressed: () async {
                   try {
                     await FirebaseAuth.instance.sendPasswordResetEmail(

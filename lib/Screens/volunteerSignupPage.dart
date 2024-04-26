@@ -88,7 +88,7 @@ class VolunterSignup extends StatelessWidget {
               height: 10,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding:const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -141,7 +141,7 @@ class VolunterSignup extends StatelessWidget {
               height: 10,
             ),
             Padding(
-              padding: EdgeInsets.only(left: 20),
+              padding:const EdgeInsets.only(left: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -194,7 +194,7 @@ class VolunterSignup extends StatelessWidget {
               height: 10,
             ),
             Padding(
-              padding: EdgeInsets.only(left: 20),
+              padding:const EdgeInsets.only(left: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -247,7 +247,7 @@ class VolunterSignup extends StatelessWidget {
               height: 10,
             ),
             Padding(
-              padding: EdgeInsets.only(left: 20),
+              padding:const EdgeInsets.only(left: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -300,7 +300,7 @@ class VolunterSignup extends StatelessWidget {
               height: 10,
             ),
             Padding(
-              padding: EdgeInsets.only(left: 20),
+              padding:const EdgeInsets.only(left: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

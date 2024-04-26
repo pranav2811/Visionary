@@ -1,9 +1,11 @@
 import 'package:blindapp/Screens/loginPage.dart';
-import 'package:blindapp/Screens/volunteerVideoCallPage.dart';
+import 'package:blindapp/Screens/userVideoCallPage.dart';
 import 'package:blindapp/components/circular_button.dart';
 import 'package:flutter/material.dart';
 
 class UserHome extends StatelessWidget {
+  const UserHome({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,12 +71,12 @@ class UserHome extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       CircularButton(
-                        icon: Icon(Icons.call),
+                        icon: const Icon(Icons.call),
                         onPressedButton: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => VideoCallScreen()),
+                                builder: (context) => const VideoCallScreen()),
                           );
                         },
                         // onPressedButton: () {
@@ -86,22 +88,22 @@ class UserHome extends StatelessWidget {
                         // },
                       ),
                       CircularButton(
-                        icon: Icon(Icons.call),
+                        icon: const Icon(Icons.call),
                         onPressedButton: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => VideoCallScreen()),
+                                builder: (context) => const VideoCallScreen()),
                           );
                         },
                       ),
                       CircularButton(
-                        icon: Icon(Icons.call),
+                        icon: const Icon(Icons.call),
                         onPressedButton: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => VideoCallScreen()),
+                                builder: (context) => const VideoCallScreen()),
                           );
                         },
                       ),
@@ -173,7 +175,7 @@ class UserHome extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.lightBlue,
-                  fixedSize: Size(300, 50),
+                  fixedSize: const Size(300, 50),
                 ),
                 child: const Text(
                   "Logout",
@@ -191,17 +193,17 @@ void _showLogoutConfirmationDialog(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text("Logout Confirmation"),
-        content: Text("Are you sure you want to logout?"),
+        title: const Text("Logout Confirmation"),
+        content: const Text("Are you sure you want to logout?"),
         actions: <Widget>[
           TextButton(
-            child: Text("No"),
+            child: const Text("No"),
             onPressed: () {
               Navigator.of(context).pop(); // Dismiss the dialog
             },
           ),
           TextButton(
-            child: Text("Yes"),
+            child: const Text("Yes"),
             onPressed: () {
               Navigator.of(context).pop(); // Dismiss the dialog
               _logoutAndRedirect(context);
