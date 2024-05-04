@@ -1,34 +1,30 @@
 import 'package:blindapp/firebase_options.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:blindapp/Screens/landingPage.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
-import 'dart:async';
 import 'package:get/get.dart';
-
+import 'package:blindapp/Screens/userHomePage.dart';
+import 'package:blindapp/Screens/volunteerHomePage.dart';
+import 'package:blindapp/Screens/landingPage.dart';
+import 'dart:async';
 import 'package:flutter/services.dart';
 
 Future<void> main() async {
-  try {
-    WidgetsFlutterBinding.ensureInitialized();
-
-    await Firebase.initializeApp(
-      name: 'blindapp',
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.instance;
-    firebaseAppCheck.activate(
-      androidProvider: AndroidProvider.debug,
-    );
-
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitDown,
-      DeviceOrientation.portraitUp,
-    ]);
-    runApp(const MyApp());
-  } catch (e) {
-    debugPrint("Error initializing Firebase: $e");
-  }
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.instance;
+  firebaseAppCheck.activate(
+    androidProvider: AndroidProvider.debug,
+  );
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.portraitUp,
+  ]);
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -39,10 +35,64 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'BlindApp',
       theme: ThemeData(),
-      initialRoute: '/landing',
-      routes: {
-        '/landing': (context) => const LandingPage(), // Landing page route
-      },
+      home: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.active) {
+            User? user = snapshot.data;
+            if (user == null) {
+              return const LandingPage();
+            } else {
+              // Check role from Firestore
+              return FutureBuilder<DocumentSnapshot>(
+                future: FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(user.uid)
+                    .get(),
+                builder: (context, userSnapshot) {
+                  if (userSnapshot.connectionState == ConnectionState.done) {
+                    if (userSnapshot.data?.exists ?? false) {
+                      // User exists in 'users' collection
+                      return UserHome();
+                    } else {
+                      // Check in 'volunteers' collection
+                      return FutureBuilder<DocumentSnapshot>(
+                        future: FirebaseFirestore.instance
+                            .collection('volunteers')
+                            .doc(user.uid)
+                            .get(),
+                        builder: (context, volunteerSnapshot) {
+                          if (volunteerSnapshot.connectionState ==
+                              ConnectionState.done) {
+                            if (volunteerSnapshot.data?.exists ?? false) {
+                              return VolunteerHomePage();
+                            } else {
+                              // User document not found in both collections, redirect to landing
+                              return const LandingPage();
+                            }
+                          }
+                          return const Scaffold(
+                            backgroundColor: Colors.white,
+                            body: Center(child: CircularProgressIndicator()),
+                          ); // Loading while checking 'volunteers'
+                        },
+                      );
+                    }
+                  }
+                  return const Scaffold(
+                    backgroundColor: Colors.white,
+                    body: Center(child: CircularProgressIndicator()),
+                  ); // Loading while checking 'users'
+                },
+              );
+            }
+          }
+          return const Scaffold(
+            backgroundColor: Colors.white,
+            body: Center(child: CircularProgressIndicator()),
+          ); // Loading indicator while connection state is not active
+        },
+      ),
     );
   }
 }
