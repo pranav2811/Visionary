@@ -1,6 +1,7 @@
 import 'package:blindapp/Screens/loginPage.dart';
 import 'package:blindapp/Screens/userVideoCallPage.dart';
 import 'package:blindapp/components/circular_button.dart';
+import 'package:blindapp/Screens/ai_camera.dart';
 import 'package:flutter/material.dart';
 
 class UserHome extends StatelessWidget {
@@ -76,7 +77,9 @@ class UserHome extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const VideoCallScreen()),
+                                builder: (context) => const VideoCallScreen(
+                                      isUser: true,
+                                    )),
                           );
                         },
                         // onPressedButton: () {
@@ -88,22 +91,24 @@ class UserHome extends StatelessWidget {
                         // },
                       ),
                       CircularButton(
-                        icon: const Icon(Icons.call),
+                        icon: const Icon(Icons.camera),
                         onPressedButton: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const VideoCallScreen()),
+                              builder: (context) => const CameraScreen(),
+                            ),
                           );
                         },
                       ),
                       CircularButton(
-                        icon: const Icon(Icons.call),
+                        icon: const Icon(Icons.camera_alt),
                         onPressedButton: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const VideoCallScreen()),
+                              builder: (context) => const CameraScreen(),
+                            ),
                           );
                         },
                       ),
