@@ -1,5 +1,6 @@
-import 'package:blindapp/Screens/volunteerVideoCallPage.dart';
+import 'package:blindapp/Screens/VolunteerVideoCallPage.dart';
 import 'package:flutter/material.dart';
+import 'package:blindapp/Screens/loginPage.dart';
 
 class VolunteerApp extends StatelessWidget {
   const VolunteerApp({super.key});
@@ -58,11 +59,26 @@ class VolunteerHomePage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const VideoCallScreen()));
+                        builder: (context) => const VolunteerVideoCallScreen(
+                              isUser: false,
+                            )));
               },
               style: ElevatedButton.styleFrom(fixedSize: const Size(250, 50)),
               child: const Text(
                 'Go Online',
+                style: TextStyle(
+                  color: Colors.blue,
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                _showLogoutConfirmationDialog(context);
+              },
+              style: ElevatedButton.styleFrom(fixedSize: const Size(250, 50)),
+              child: const Text(
+                'Logout',
                 style: TextStyle(
                   color: Colors.blue,
                 ),
@@ -89,4 +105,41 @@ class VolunteerHomePage extends StatelessWidget {
       ),
     );
   }
+}
+
+void _showLogoutConfirmationDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text("Logout Confirmation"),
+        content: const Text("Are you sure you want to logout?"),
+        actions: <Widget>[
+          TextButton(
+            child: const Text("No"),
+            onPressed: () {
+              Navigator.of(context).pop(); // Dismiss the dialog
+            },
+          ),
+          TextButton(
+            child: const Text("Yes"),
+            onPressed: () {
+              Navigator.of(context).pop(); // Dismiss the dialog
+              _logoutAndRedirect(context);
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void _logoutAndRedirect(BuildContext context) {
+  // Perform logout logic here, e.g., clear user session
+
+  // Navigate to the sign-in page
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (context) => LoginPage()),
+  );
 }
