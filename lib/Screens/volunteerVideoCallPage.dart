@@ -1,31 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:agora_uikit/agora_uikit.dart';
+import 'package:blindapp/utils/channelManagement.dart'; // Ensure this path is correct
 
-class VideoCallScreen extends StatefulWidget {
-  const VideoCallScreen({super.key});
+class VolunteerVideoCallScreen extends StatefulWidget {
+  final bool isUser;
+  const VolunteerVideoCallScreen({super.key, required this.isUser});
 
   @override
-  State<VideoCallScreen> createState() => _VideoCallScreenState();
+  State<VolunteerVideoCallScreen> createState() => _VideoCallScreenState();
 }
 
-class _VideoCallScreenState extends State<VideoCallScreen> {
-  final AgoraClient _client = AgoraClient(
-    agoraConnectionData: AgoraConnectionData(
-        appId: '5a1eb9ed6ab34eada8cbd564a0f5732c',
-        channelName: 'testing',
-        tempToken:
-            '007eJxTYDA9r7H5/0sul2P32dpVWhQtQ2zUHJboSbN6stk/Pu70rkqBwTTRMDXJMjXFLDHJ2CQ1MSXRIjkpxdTMJNEgzdTc2CjZ0kQrrSGQkSG65CojIwMEgvjsDCWpxSWZeekMDAD2kx5J'),
-  );
+class _VideoCallScreenState extends State<VolunteerVideoCallScreen> {
+  late AgoraClient _client;
+  late final ChannelService _channelService;
+  String _channelId = '';
+  bool _isInitialized = false; // Flag to track if Agora is ready
 
   @override
   void initState() {
     super.initState();
-    _initAgora();
+    _channelService = ChannelService();
+    _initChannel();
+  }
+
+  Future<void> _initChannel() async {
+    _channelId = await _channelService.getOrCreateChannel(widget.isUser);
+    _client = AgoraClient(
+      // Recreate the AgoraClient here with the fetched channel ID
+      agoraConnectionData: AgoraConnectionData(
+        appId: '5a1eb9ed6ab34eada8cbd564a0f5732c',
+        channelName: _channelId, // Set the dynamically obtained channel name
+        tempToken: 'Your_temp_token_here',
+      ),
+    );
+    await _initAgora();
+    setState(() {
+      _isInitialized = true; // Set the flag to true after initialization
+    });
   }
 
   Future<void> _initAgora() async {
     await _client.initialize();
     await _client.engine.enableLocalVideo(false);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    if (_isInitialized) {
+      _channelService.leaveChannel(_channelId, false);
+    }
   }
 
   @override
@@ -35,31 +60,32 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
       child: Scaffold(
         backgroundColor: Colors.black,
         body: SafeArea(
-          child: Stack(
-            children: [
-              AgoraVideoViewer(
-                client: _client,
-                layoutType: Layout
-                    .oneToOne, // This may need to be adjusted if available layouts do not meet your requirements
-                showNumberOfUsers: false,
-
-                // To enforce that the remote user has the bigger picture,
-                // you may need to customize the widget further or handle it via state management.
-              ),
-              Positioned(
-                bottom: 20,
-                right: 20,
-                left: 20,
-                child: AgoraVideoButtons(
-                  client: _client,
-                  enabledButtons: const [
-                    BuiltInButtons.callEnd,
-                    BuiltInButtons.toggleMic,
+          child: _isInitialized
+              ? Stack(
+                  // Ensure components are loaded only if initialized
+                  children: [
+                    AgoraVideoViewer(
+                      client: _client,
+                      layoutType: Layout.oneToOne,
+                      showNumberOfUsers: false,
+                    ),
+                    Positioned(
+                      bottom: 20,
+                      right: 20,
+                      left: 20,
+                      child: AgoraVideoButtons(
+                        client: _client,
+                        enabledButtons: const [
+                          BuiltInButtons.callEnd,
+                          BuiltInButtons.toggleMic,
+                        ],
+                      ),
+                    ),
                   ],
-                ),
-              ),
-            ],
-          ),
+                )
+              : Center(
+                  child:
+                      CircularProgressIndicator()), // Show loading indicator until initialized
         ),
       ),
     );

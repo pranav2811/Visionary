@@ -65,16 +65,16 @@ class MyApp extends StatelessWidget {
                           if (volunteerSnapshot.connectionState ==
                               ConnectionState.done) {
                             if (volunteerSnapshot.data?.exists ?? false) {
-                              return VolunteerHomePage();
+                              return const VolunteerHomePage();
                             } else {
-                              // User document not found in both collections, redirect to landing
+                              
                               return const LandingPage();
                             }
                           }
                           return const Scaffold(
                             backgroundColor: Colors.white,
                             body: Center(child: CircularProgressIndicator()),
-                          ); // Loading while checking 'volunteers'
+                          ); 
                         },
                       );
                     }
@@ -82,7 +82,7 @@ class MyApp extends StatelessWidget {
                   return const Scaffold(
                     backgroundColor: Colors.white,
                     body: Center(child: CircularProgressIndicator()),
-                  ); // Loading while checking 'users'
+                  ); 
                 },
               );
             }

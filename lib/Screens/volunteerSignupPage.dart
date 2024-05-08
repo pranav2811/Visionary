@@ -32,6 +32,7 @@ class VolunterSignup extends StatelessWidget {
         'email': emailController.text,
         'aadhar': aadharController.text,
         'phone': phoneController.text,
+        'password': passwordController.text,
         // Storing passwords in Firestore is not recommended
       });
     } catch (e) {
@@ -88,7 +89,7 @@ class VolunterSignup extends StatelessWidget {
               height: 10,
             ),
             Padding(
-              padding:const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -141,7 +142,7 @@ class VolunterSignup extends StatelessWidget {
               height: 10,
             ),
             Padding(
-              padding:const EdgeInsets.only(left: 20),
+              padding: const EdgeInsets.only(left: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -194,7 +195,7 @@ class VolunterSignup extends StatelessWidget {
               height: 10,
             ),
             Padding(
-              padding:const EdgeInsets.only(left: 20),
+              padding: const EdgeInsets.only(left: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -247,7 +248,7 @@ class VolunterSignup extends StatelessWidget {
               height: 10,
             ),
             Padding(
-              padding:const EdgeInsets.only(left: 20),
+              padding: const EdgeInsets.only(left: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -300,7 +301,7 @@ class VolunterSignup extends StatelessWidget {
               height: 10,
             ),
             Padding(
-              padding:const EdgeInsets.only(left: 20),
+              padding: const EdgeInsets.only(left: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
