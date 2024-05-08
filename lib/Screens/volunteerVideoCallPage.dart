@@ -83,9 +83,7 @@ class _VideoCallScreenState extends State<VolunteerVideoCallScreen> {
                     ),
                   ],
                 )
-              : Center(
-                  child:
-                      CircularProgressIndicator()), // Show loading indicator until initialized
+              : const Center(child: CircularProgressIndicator()),
         ),
       ),
     );

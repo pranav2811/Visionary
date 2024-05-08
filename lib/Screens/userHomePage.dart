@@ -77,9 +77,10 @@ class UserHome extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const VideoCallScreen(
-                                    isUser: true,
-                                    )),
+                              builder: (context) => const VideoCallScreen(
+                                isUser: true,
+                              ),
+                            ),
                           );
                         },
                         // onPressedButton: () {

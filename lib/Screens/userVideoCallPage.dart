@@ -33,7 +33,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
         agoraConnectionData: AgoraConnectionData(
           appId: '5a1eb9ed6ab34eada8cbd564a0f5732c',
           channelName: _channelId, // Set the dynamically obtained channel name
-          tempToken: 'Your_temp_token_here',
+          tempToken: '',
         ),
       );
       await _initAgora();
@@ -94,9 +94,9 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
                     ),
                   ],
                 )
-              : Center(
+              :const Center(
                   child:
-                      CircularProgressIndicator()), // Show loading indicator until initialized
+                      CircularProgressIndicator()), 
         ),
       ),
     );
