@@ -1,9 +1,12 @@
+// ignore_for_file: sort_child_properties_last
+
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -20,6 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -78,9 +82,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
       final downloadUrl = await storageRef.getDownloadURL();
 
       if (downloadUrl.isNotEmpty) {
-        await FirebaseFirestore.instance.collection('users').doc(uid).update({
-          'imageUrl': downloadUrl,
-        });
+        final userDoc =
+            await FirebaseFirestore.instance.collection('users').doc(uid).get();
+        final volunteerDoc = await FirebaseFirestore.instance
+            .collection('volunteers')
+            .doc(uid)
+            .get();
+
+        if (userDoc.exists) {
+          await FirebaseFirestore.instance.collection('users').doc(uid).update({
+            'imageUrl': downloadUrl,
+          });
+        } else if (volunteerDoc.exists) {
+          await FirebaseFirestore.instance
+              .collection('volunteers')
+              .doc(uid)
+              .update({
+            'imageUrl': downloadUrl,
+          });
+        }
 
         setState(() {
           imageUrl = downloadUrl;
@@ -91,12 +111,66 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<void> updateUserData() async {
     final uid = user!.uid;
-    await FirebaseFirestore.instance.collection('users').doc(uid).update({
-      'name': nameController.text,
-      'email': emailController.text,
-      'phone': phoneController.text,
-      'role': 'Registered User',
-    });
+    final String newName = nameController.text;
+    final String newEmail = emailController.text;
+    final String newPhone = phoneController.text;
+    final String newPassword = passwordController.text;
+
+    // Check if user or volunteer
+    final userDoc =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    final volunteerDoc = await FirebaseFirestore.instance
+        .collection('volunteers')
+        .doc(uid)
+        .get();
+
+    if (userDoc.exists) {
+      // Update Firestore user data
+      await FirebaseFirestore.instance.collection('users').doc(uid).update({
+        'name': newName,
+        'email': newEmail,
+        'phone': newPhone,
+        'role': 'Registered User'
+      });
+    } else if (volunteerDoc.exists) {
+      // Update Firestore volunteer data
+      await FirebaseFirestore.instance
+          .collection('volunteers')
+          .doc(uid)
+          .update({
+        'name': newName,
+        'email': newEmail,
+        'phone': newPhone,
+      });
+    }
+
+    // Update Firebase Authentication email and password
+    if (newEmail.isNotEmpty && newPassword.isNotEmpty) {
+      try {
+        if (user!.isAnonymous) {
+          // Link the anonymous account with email and password
+          final credential = EmailAuthProvider.credential(
+              email: newEmail, password: newPassword);
+          await user!.linkWithCredential(credential);
+        } else {
+          // Update the email and password for non-anonymous users
+          await user!.updateEmail(newEmail);
+          await user!.updatePassword(newPassword);
+        }
+        await FirebaseAuth.instance.currentUser?.reload();
+        user = FirebaseAuth.instance.currentUser;
+
+        Fluttertoast.showToast(
+          msg: 'Profile updated successfully!',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } catch (e) {
+        // Handle errors if any
+        print("Error updating email/password: $e");
+      }
+    }
   }
 
   @override
@@ -184,6 +258,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       controller: emailController,
                       decoration: InputDecoration(
                         labelText: 'Email ID',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    TextField(
+                      controller: passwordController,
+                      decoration: InputDecoration(
+                        labelText: 'Password',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),

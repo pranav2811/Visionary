@@ -1,6 +1,7 @@
-import 'package:blindapp/Screens/VolunteerVideoCallPage.dart';
+import 'package:blindapp/Screens/volunteerVideoCallPage.dart';
 import 'package:flutter/material.dart';
 import 'package:blindapp/Screens/loginPage.dart';
+import 'package:blindapp/Screens/profile.dart'; // Import your ProfilePage here
 
 class VolunteerApp extends StatelessWidget {
   const VolunteerApp({super.key});
@@ -18,8 +19,45 @@ class VolunteerApp extends StatelessWidget {
   }
 }
 
-class VolunteerHomePage extends StatelessWidget {
+class VolunteerHomePage extends StatefulWidget {
   const VolunteerHomePage({super.key});
+
+  @override
+  _VolunteerHomePageState createState() => _VolunteerHomePageState();
+}
+
+class _VolunteerHomePageState extends State<VolunteerHomePage> {
+  int _selectedIndex = 0;
+
+  static const List<Widget> _widgetOptions = <Widget>[
+    Text('Home Page'),
+    Text('Connect Page'),
+    Text(
+        'Profile Page'), // This will not be used since we navigate to ProfilePage directly
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    if (index == 2) {
+      // Profile button is tapped
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ProfileScreen()), // Navigate to ProfilePage
+      );
+    } else if (index == 0) {
+      // Browse button is tapped
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                VolunteerHomePage()), // Navigate to BrowseScreen
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,11 +95,18 @@ class VolunteerHomePage extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const VolunteerVideoCallScreen(
-                              isUser: false,
-                            )));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        VolunteerVideoCallScreen(isUser: false),
+                  ),
+                ).then((_) {
+                  // If you need to update the volunteer ID after navigating, you can do it like this:
+                  if (volunteerVideoCallScreenKey.currentState != null) {
+                    volunteerVideoCallScreenKey.currentState!
+                        .updateVolunteerId("newVolunteerId");
+                  }
+                });
               },
               style: ElevatedButton.styleFrom(fixedSize: const Size(250, 50)),
               child: const Text(
@@ -83,7 +128,8 @@ class VolunteerHomePage extends StatelessWidget {
                   color: Colors.blue,
                 ),
               ),
-            )
+            ),
+            const SizedBox(height: 30),
           ],
         ),
       ),
@@ -91,7 +137,7 @@ class VolunteerHomePage extends StatelessWidget {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.explore),
-            label: 'Browse',
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.group),
@@ -99,9 +145,12 @@ class VolunteerHomePage extends StatelessWidget {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.build),
-            label: 'Service',
+            label: 'Profile',
           ),
         ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: _onItemTapped,
       ),
     );
   }

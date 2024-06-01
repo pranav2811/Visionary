@@ -49,6 +49,9 @@ dependencies:
   google_ml_vision: ^0.0.8
   http: ^1.2.1
   flutter_tts: ^4.0.2
+  speech_to_text: ^6.6.1
+  image_picker: ^1.1.2
+  firebase_storage: ^11.7.7
 
 dev_dependencies:
   flutter_test:

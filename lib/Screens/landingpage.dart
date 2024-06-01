@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:blindapp/Screens/loginPage.dart';
-import 'package:blindapp/Screens/userSignupPage.dart';
 import 'package:blindapp/Screens/volunteerSignupPage.dart';
 
 class LandingPage extends StatefulWidget {
@@ -62,8 +61,8 @@ class _LandingPageState extends State<LandingPage> {
               _handleCommand(result.recognizedWords.toLowerCase());
             });
           },
-          listenFor: Duration(seconds: 30),
-          pauseFor: Duration(seconds: 5),
+          listenFor: Duration(seconds: 60),
+          pauseFor: Duration(seconds: 15),
           partialResults: true);
     }
   }
