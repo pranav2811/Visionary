@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:agora_uikit/agora_uikit.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class VolunteerVideoCallScreen extends StatefulWidget {
   const VolunteerVideoCallScreen({super.key});
@@ -12,8 +13,10 @@ class VolunteerVideoCallScreen extends StatefulWidget {
 
 class _VolunteerVideoCallScreenState extends State<VolunteerVideoCallScreen> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   AgoraClient? _client;
   String _channelName = '';
+  String _volunteerId = '';
 
   @override
   void initState() {
@@ -22,7 +25,14 @@ class _VolunteerVideoCallScreenState extends State<VolunteerVideoCallScreen> {
   }
 
   Future<void> _initVolunteerCall() async {
-    // Fetch the first available channel from Firestore
+    User? volunteer = _auth.currentUser;
+    if (volunteer == null) {
+      // Handle volunteer not logged in
+      print("Volunteer not logged in");
+      return;
+    }
+    _volunteerId = volunteer.uid;
+
     QuerySnapshot querySnapshot = await _firestore
         .collection('channels')
         .where('isOccupied', isEqualTo: false)
@@ -33,17 +43,16 @@ class _VolunteerVideoCallScreenState extends State<VolunteerVideoCallScreen> {
       DocumentSnapshot channelDoc = querySnapshot.docs.first;
       _channelName = channelDoc['channelName'];
 
-      // Mark the channel as occupied
-      await _firestore
-          .collection('channels')
-          .doc(_channelName)
-          .update({'isOccupied': true});
+      await _firestore.collection('channels').doc(_channelName).update({
+        'isOccupied': true,
+        'volunteerId': _volunteerId,
+      });
 
       _client = AgoraClient(
         agoraConnectionData: AgoraConnectionData(
           appId: '855ba77811cb4d11b801101b74f3d088',
           channelName: _channelName,
-          tempToken: null, // Set to null when tokens are disabled
+          tempToken: null,
         ),
       );
 
@@ -54,17 +63,16 @@ class _VolunteerVideoCallScreenState extends State<VolunteerVideoCallScreen> {
 
       setState(() {}); // Refresh the UI
     } else {
-      // Handle no available channels
       print('No available channels');
     }
   }
 
   void dispose() {
     if (_channelName.isNotEmpty) {
-      _firestore
-          .collection('channels')
-          .doc(_channelName)
-          .update({'isOccupied': false});
+      _firestore.collection('channels').doc(_channelName).update({
+        'isOccupied': false,
+        'volunteerId': FieldValue.delete(),
+      });
     }
     _client?.engine.leaveChannel();
     _client?.engine.release();
@@ -94,8 +102,7 @@ class _VolunteerVideoCallScreenState extends State<VolunteerVideoCallScreen> {
                 client: _client!,
                 layoutType: Layout.oneToOne,
                 showNumberOfUsers: true,
-                enableHostControls:
-                    true, // Add this to enable host controls if needed
+                enableHostControls: true,
               ),
               Positioned(
                 bottom: 20,
