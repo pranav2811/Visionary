@@ -66,6 +66,9 @@ class _VolunteerVideoCallScreenState extends State<VolunteerVideoCallScreen> {
           .doc(_channelName)
           .update({'isOccupied': false});
     }
+    _client?.engine.leaveChannel();
+    _client?.engine.release();
+    super.dispose();
   }
 
   @override
