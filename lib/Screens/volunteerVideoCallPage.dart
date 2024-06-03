@@ -1,91 +1,171 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:agora_uikit/agora_uikit.dart';
-import 'package:blindapp/utils/channelManagement.dart'; // Ensure this path is correct
 
 class VolunteerVideoCallScreen extends StatefulWidget {
-  final bool isUser;
-  const VolunteerVideoCallScreen({super.key, required this.isUser});
+  const VolunteerVideoCallScreen({super.key});
 
   @override
-  State<VolunteerVideoCallScreen> createState() => _VideoCallScreenState();
+  State<VolunteerVideoCallScreen> createState() =>
+      _VolunteerVideoCallScreenState();
 }
 
-class _VideoCallScreenState extends State<VolunteerVideoCallScreen> {
-  late AgoraClient _client;
-  late final ChannelService _channelService;
-  String _channelId = '';
-  bool _isInitialized = false; // Flag to track if Agora is ready
+class _VolunteerVideoCallScreenState extends State<VolunteerVideoCallScreen> {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  AgoraClient? _client;
+  String _channelName = '';
 
   @override
   void initState() {
     super.initState();
-    _channelService = ChannelService();
-    _initChannel();
+    _initVolunteerCall();
   }
 
-  Future<void> _initChannel() async {
-    _channelId = await _channelService.getOrCreateChannel(widget.isUser);
-    _client = AgoraClient(
-      // Recreate the AgoraClient here with the fetched channel ID
-      agoraConnectionData: AgoraConnectionData(
-        appId: '5a1eb9ed6ab34eada8cbd564a0f5732c',
-        channelName: _channelId, // Set the dynamically obtained channel name
-        tempToken: 'Your_temp_token_here',
-      ),
-    );
-    await _initAgora();
-    setState(() {
-      _isInitialized = true; // Set the flag to true after initialization
-    });
-  }
+  Future<void> _initVolunteerCall() async {
+    // Fetch the first available channel from Firestore
+    QuerySnapshot querySnapshot = await _firestore
+        .collection('channels')
+        .where('isOccupied', isEqualTo: false)
+        .limit(1)
+        .get();
 
-  Future<void> _initAgora() async {
-    await _client.initialize();
-    await _client.engine.enableLocalVideo(false);
-  }
+    if (querySnapshot.docs.isNotEmpty) {
+      DocumentSnapshot channelDoc = querySnapshot.docs.first;
+      _channelName = channelDoc['channelName'];
 
-  @override
-  void dispose() {
-    super.dispose();
-    if (_isInitialized) {
-      _channelService.leaveChannel(_channelId, false);
+      // Mark the channel as occupied
+      await _firestore
+          .collection('channels')
+          .doc(_channelName)
+          .update({'isOccupied': true});
+
+      _client = AgoraClient(
+        agoraConnectionData: AgoraConnectionData(
+          appId: '855ba77811cb4d11b801101b74f3d088',
+          channelName: _channelName,
+          tempToken: null, // Set to null when tokens are disabled
+        ),
+      );
+
+      await _client!.initialize();
+
+      // Disable local video
+      await _client!.engine.enableLocalVideo(false);
+
+      setState(() {}); // Refresh the UI
+    } else {
+      // Handle no available channels
+      print('No available channels');
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_client == null) return Center(child: CircularProgressIndicator());
+
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
         backgroundColor: Colors.black,
         body: SafeArea(
-          child: _isInitialized
-              ? Stack(
-                  // Ensure components are loaded only if initialized
-                  children: [
-                    AgoraVideoViewer(
-                      client: _client,
-                      layoutType: Layout.oneToOne,
-                      showNumberOfUsers: false,
-                    ),
-                    Positioned(
-                      bottom: 20,
-                      right: 20,
-                      left: 20,
-                      child: AgoraVideoButtons(
-                        client: _client,
-                        enabledButtons: const [
-                          BuiltInButtons.callEnd,
-                          BuiltInButtons.toggleMic,
-                        ],
-                      ),
-                    ),
+          child: Stack(
+            children: [
+              AgoraVideoViewer(
+                client: _client!,
+                layoutType: Layout.oneToOne,
+                showNumberOfUsers: true,
+                enableHostControls: true, // Add this to enable host controls if needed
+              ),
+              Positioned(
+                bottom: 20,
+                right: 20,
+                left: 20,
+                child: AgoraVideoButtons(
+                  client: _client!,
+                  enabledButtons: const [
+                    BuiltInButtons.callEnd,
+                    BuiltInButtons.toggleMic,
                   ],
-                )
-              : const Center(child: CircularProgressIndicator()),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
+
+
+
+
+
+
+// import 'package:flutter/material.dart';
+// import 'package:agora_uikit/agora_uikit.dart';
+
+// class VolunteerVideoCallScreen extends StatefulWidget {
+//   const VolunteerVideoCallScreen({super.key});
+
+//   @override
+//   State<VolunteerVideoCallScreen> createState() =>
+//       _VolunteerVideoCallScreenState();
+// }
+
+// class _VolunteerVideoCallScreenState extends State<VolunteerVideoCallScreen> {
+//   final AgoraClient _client = AgoraClient(
+//     agoraConnectionData: AgoraConnectionData(
+//         appId: '5a1eb9ed6ab34eada8cbd564a0f5732c',
+//         channelName: 'testing',
+//         tempToken:
+//             '007eJxTYGg5npXpKNz/8oSK9HWf9de2/j9zOvrv0bkXtgfaTk80/7RTgcE00TA1yTI1xSwxydgkNTEl0SI5KcXUzCTRIM3U3NgoOUk8Lq0hkJEhe/1tBkYoBPHZGUpSi0sy89IZGADFqyRT'),
+//   );
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _initAgora();
+//   }
+
+//   Future<void> _initAgora() async {
+//     await _client.initialize();
+//     await _client.engine.enableLocalVideo(false);
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return WillPopScope(
+//       onWillPop: () async => false,
+//       child: Scaffold(
+//         backgroundColor: Colors.black,
+//         body: SafeArea(
+//           child: Stack(
+//             children: [
+//               AgoraVideoViewer(
+//                 client: _client,
+//                 layoutType: Layout
+//                     .oneToOne, // This may need to be adjusted if available layouts do not meet your requirements
+//                 showNumberOfUsers: false,
+
+//                 // To enforce that the remote user has the bigger picture,
+//                 // you may need to customize the widget further or handle it via state management.
+//               ),
+//               Positioned(
+//                 bottom: 20,
+//                 right: 20,
+//                 left: 20,
+//                 child: AgoraVideoButtons(
+//                   client: _client,
+//                   enabledButtons: const [
+//                     BuiltInButtons.callEnd,
+//                     BuiltInButtons.toggleMic,
+//                   ],
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

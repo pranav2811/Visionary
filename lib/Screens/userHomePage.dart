@@ -3,6 +3,8 @@ import 'package:blindapp/Screens/userVideoCallPage.dart';
 import 'package:blindapp/components/circular_button.dart';
 import 'package:blindapp/Screens/ai_camera.dart';
 import 'package:flutter/material.dart';
+import 'package:blindapp/Screens/profile.dart';
+import 'package:flutter/widgets.dart';
 
 class UserHome extends StatelessWidget {
   const UserHome({super.key});
@@ -78,7 +80,7 @@ class UserHome extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) => const VideoCallScreen(
-                                isUser: true,
+                                // isUser: true,
                               ),
                             ),
                           );
@@ -151,7 +153,7 @@ class UserHome extends StatelessWidget {
                     thickness: 2,
                     color: Colors.grey.shade300,
                   ),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
@@ -160,9 +162,17 @@ class UserHome extends StatelessWidget {
                       ),
                       Text("FAQ",
                           style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text(
-                        "Profile",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProfileScreen()));
+                        },
+                        child: Text(
+                          "Profile",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ],
                   ),

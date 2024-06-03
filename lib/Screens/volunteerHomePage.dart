@@ -97,16 +97,11 @@ class _VolunteerHomePageState extends State<VolunteerHomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        VolunteerVideoCallScreen(isUser: false),
+                    builder: (context) => VolunteerVideoCallScreen(
+                      // isUser: false,
+                    ),
                   ),
-                ).then((_) {
-                  // If you need to update the volunteer ID after navigating, you can do it like this:
-                  if (volunteerVideoCallScreenKey.currentState != null) {
-                    volunteerVideoCallScreenKey.currentState!
-                        .updateVolunteerId("newVolunteerId");
-                  }
-                });
+                );
               },
               style: ElevatedButton.styleFrom(fixedSize: const Size(250, 50)),
               child: const Text(
