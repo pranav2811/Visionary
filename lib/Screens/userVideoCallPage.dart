@@ -52,15 +52,36 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
 
     await _client!.initialize();
 
-    _client!.engine.setCameraCapturerConfiguration(CameraCapturerConfiguration(
-        cameraDirection: CameraDirection.cameraRear));
+    _client!.engine.setCameraCapturerConfiguration(
+        const CameraCapturerConfiguration(
+            cameraDirection: CameraDirection.cameraRear));
 
     setState(() {}); // Refresh the UI
   }
 
   @override
+  void dispose() {
+    if (_channelName.isNotEmpty) {
+      _firestore.collection('channels').doc(_channelName).delete();
+    }
+
+    _client?.engine.leaveChannel();
+    _client?.engine.leaveChannel();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (_client == null) return Center(child: CircularProgressIndicator());
+    if (_client == null) {
+      return const Center(
+        child: SizedBox(
+          width: 50,
+          height: 50,
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
 
     return WillPopScope(
       onWillPop: () async => false,

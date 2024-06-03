@@ -59,9 +59,26 @@ class _VolunteerVideoCallScreenState extends State<VolunteerVideoCallScreen> {
     }
   }
 
+  void dispose() {
+    if (_channelName.isNotEmpty) {
+      _firestore
+          .collection('channels')
+          .doc(_channelName)
+          .update({'isOccupied': false});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (_client == null) return Center(child: CircularProgressIndicator());
+    if (_client == null) {
+      return const Center(
+        child: SizedBox(
+          width: 50,
+          height: 50,
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
 
     return WillPopScope(
       onWillPop: () async => false,
@@ -74,7 +91,8 @@ class _VolunteerVideoCallScreenState extends State<VolunteerVideoCallScreen> {
                 client: _client!,
                 layoutType: Layout.oneToOne,
                 showNumberOfUsers: true,
-                enableHostControls: true, // Add this to enable host controls if needed
+                enableHostControls:
+                    true, // Add this to enable host controls if needed
               ),
               Positioned(
                 bottom: 20,
@@ -95,4 +113,3 @@ class _VolunteerVideoCallScreenState extends State<VolunteerVideoCallScreen> {
     );
   }
 }
-
