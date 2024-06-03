@@ -29,13 +29,6 @@ class VolunteerHomePage extends StatefulWidget {
 class _VolunteerHomePageState extends State<VolunteerHomePage> {
   int _selectedIndex = 0;
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text('Home Page'),
-    Text('Connect Page'),
-    Text(
-        'Profile Page'), // This will not be used since we navigate to ProfilePage directly
-  ];
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -98,8 +91,8 @@ class _VolunteerHomePageState extends State<VolunteerHomePage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => VolunteerVideoCallScreen(
-                      // isUser: false,
-                    ),
+                        // isUser: false,
+                        ),
                   ),
                 );
               },
