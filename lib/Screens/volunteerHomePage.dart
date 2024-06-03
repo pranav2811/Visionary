@@ -96,7 +96,9 @@ class _VolunteerHomePageState extends State<VolunteerHomePage> {
                   ),
                 );
               },
-              style: ElevatedButton.styleFrom(fixedSize: const Size(250, 50),),
+              style: ElevatedButton.styleFrom(
+                fixedSize: const Size(250, 50),
+              ),
               child: const Text(
                 'Go Online',
                 style: TextStyle(
@@ -137,7 +139,7 @@ class _VolunteerHomePageState extends State<VolunteerHomePage> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: Colors.blue,
         onTap: _onItemTapped,
       ),
     );
