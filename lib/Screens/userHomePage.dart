@@ -1,10 +1,9 @@
 import 'package:blindapp/Screens/loginPage.dart';
 import 'package:blindapp/Screens/userVideoCallPage.dart';
-import 'package:blindapp/components/circular_button.dart';
 import 'package:blindapp/Screens/ai_camera.dart';
 import 'package:flutter/material.dart';
 import 'package:blindapp/Screens/profile.dart';
-import 'package:flutter/widgets.dart';
+
 
 class UserApp extends StatelessWidget {
   const UserApp({super.key});
