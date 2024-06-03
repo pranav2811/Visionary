@@ -111,8 +111,8 @@ class _LandingPageState extends State<LandingPage> {
           'role': 'guestuser',
         });
         _speak("Signed in as Guest User");
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const UserHome()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const UserHomePage()));
       }
     } catch (e) {
       print("Failed to register guest user: $e");

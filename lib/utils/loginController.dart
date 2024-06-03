@@ -53,7 +53,7 @@ class LoginController extends GetxController {
     if (user.docs.isNotEmpty) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const UserHome()),
+        MaterialPageRoute(builder: (context) => const UserHomePage()),
       );
       return;
     }

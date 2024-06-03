@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
                   if (userSnapshot.connectionState == ConnectionState.done) {
                     if (userSnapshot.data?.exists ?? false) {
                       // User exists in 'users' collection
-                      return UserHome();
+                      return UserHomePage();
                     } else {
                       // Check in 'volunteers' collection
                       return FutureBuilder<DocumentSnapshot>(
@@ -67,14 +67,13 @@ class MyApp extends StatelessWidget {
                             if (volunteerSnapshot.data?.exists ?? false) {
                               return const VolunteerHomePage();
                             } else {
-                              
                               return const LandingPage();
                             }
                           }
                           return const Scaffold(
                             backgroundColor: Colors.white,
                             body: Center(child: CircularProgressIndicator()),
-                          ); 
+                          );
                         },
                       );
                     }
@@ -82,7 +81,7 @@ class MyApp extends StatelessWidget {
                   return const Scaffold(
                     backgroundColor: Colors.white,
                     body: Center(child: CircularProgressIndicator()),
-                  ); 
+                  );
                 },
               );
             }

@@ -96,7 +96,7 @@ class _VolunteerHomePageState extends State<VolunteerHomePage> {
                   ),
                 );
               },
-              style: ElevatedButton.styleFrom(fixedSize: const Size(250, 50)),
+              style: ElevatedButton.styleFrom(fixedSize: const Size(250, 50),),
               child: const Text(
                 'Go Online',
                 style: TextStyle(
