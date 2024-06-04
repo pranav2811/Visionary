@@ -4,7 +4,6 @@ import 'package:blindapp/Screens/ai_camera.dart';
 import 'package:flutter/material.dart';
 import 'package:blindapp/Screens/profile.dart';
 
-
 class UserApp extends StatelessWidget {
   const UserApp({super.key});
 
@@ -79,7 +78,7 @@ class _UserHomePageState extends State<UserHomePage> {
             ),
             const SizedBox(height: 30),
             const Text(
-              'Connect with a volunteer to get assistane now!',
+              'Connect with a volunteer to get assiste now!',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 16),
             ),
@@ -140,6 +139,7 @@ class _UserHomePageState extends State<UserHomePage> {
     );
   }
 }
+
 void _showLogoutConfirmationDialog(BuildContext context) {
   showDialog(
     context: context,
