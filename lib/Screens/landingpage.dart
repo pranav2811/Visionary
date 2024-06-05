@@ -61,8 +61,8 @@ class _LandingPageState extends State<LandingPage> {
               _handleCommand(result.recognizedWords.toLowerCase());
             });
           },
-          listenFor: Duration(seconds: 60),
-          pauseFor: Duration(seconds: 15),
+          listenFor: Duration(seconds: 30),
+          pauseFor: Duration(seconds: 5),
           partialResults: true);
     }
   }

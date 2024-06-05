@@ -1,10 +1,11 @@
+import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:blindapp/Screens/userHomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:agora_uikit/agora_uikit.dart';
-import 'package:agora_rtc_engine/agora_rtc_engine.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class VideoCallScreen extends StatefulWidget {
   const VideoCallScreen({super.key});
@@ -16,10 +17,12 @@ class VideoCallScreen extends StatefulWidget {
 class _VideoCallScreenState extends State<VideoCallScreen> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FlutterTts _flutterTts = FlutterTts();
   AgoraClient? _client;
   String _channelName = '';
   String? _volunteerId;
   bool _isMicMuted = false; // State to manage mic status
+  double _rating = 3.0;
 
   @override
   void initState() {
@@ -52,6 +55,11 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
         channelName: _channelName,
         tempToken: null, // Set to null when tokens are disabled
       ),
+      agoraEventHandlers: AgoraRtcEventHandlers(
+        onUserJoined: (RtcConnection connection, int uid, int elapsed) {
+          _handleRemoteUserJoined();
+        },
+      ),
     );
 
     await _client!.initialize();
@@ -61,6 +69,34 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
             cameraDirection: CameraDirection.cameraRear));
 
     setState(() {}); // Refresh the UI
+  }
+
+  Future<void> _handleRemoteUserJoined() async {
+    try {
+      // Retrieve the volunteer ID from the channel document
+      DocumentSnapshot channelSnapshot =
+          await _firestore.collection('channels').doc(_channelName).get();
+      _volunteerId =
+          (channelSnapshot.data() as Map<String, dynamic>?)?['volunteerId'];
+
+      if (_volunteerId != null) {
+        DocumentSnapshot volunteerSnapshot =
+            await _firestore.collection('volunteers').doc(_volunteerId).get();
+        Map<String, dynamic>? volunteerData =
+            volunteerSnapshot.data() as Map<String, dynamic>?;
+
+        if (volunteerData != null) {
+          String volunteerName = volunteerData['name'] ?? 'Unknown';
+          double volunteerRating = volunteerData['rating']?.toDouble() ?? 0.0;
+
+          String message =
+              'Volunteer $volunteerName with a rating of $volunteerRating stars has joined the call';
+          await _speak(message);
+        }
+      }
+    } catch (e) {
+      print("Error retrieving volunteer details: $e");
+    }
   }
 
   Future<void> _endCall({bool showRating = true}) async {
@@ -87,7 +123,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
   }
 
   Future<void> _showRatingDialog() async {
-    double _rating = 3.0; // default rating
+    await _speak("Please rate the volunteer from 1 to 5 stars.");
     await showDialog(
       context: context,
       builder: (context) {
@@ -104,25 +140,19 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
               Icons.star,
               color: Colors.amber,
             ),
-            onRatingUpdate: (rating) {
+            onRatingUpdate: (rating) async {
               _rating = rating;
+              _speak("You have selected ${rating.toString()} stars.");
+              Navigator.pop(context); // Close the dialog
+              await _submitRating(_rating);
+              if (mounted) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => UserHomePage()),
+                ); // Go back to the home screen
+              }
             },
           ),
-          actions: [
-            TextButton(
-              child: const Text('Submit'),
-              onPressed: () async {
-                Navigator.pop(context); // Close the dialog
-                await _submitRating(_rating);
-                if (mounted) {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => UserHomePage()),
-                  ); // Go back to the home screen
-                }
-              },
-            ),
-          ],
         );
       },
     );
@@ -177,10 +207,16 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
     });
   }
 
+  Future<void> _speak(String text) async {
+    await _flutterTts.setLanguage("en-US");
+    await _flutterTts.setPitch(1.0);
+    await _flutterTts.speak(text);
+  }
+
   @override
   void dispose() {
-    // Avoid navigation in dispose, call end call without showing rating dialog
     _endCall(showRating: false).then((_) {
+      _flutterTts.stop();
       super.dispose();
     });
   }
