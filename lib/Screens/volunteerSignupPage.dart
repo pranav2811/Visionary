@@ -8,8 +8,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-class VolunterSignup extends StatelessWidget {
-  VolunterSignup({super.key});
+class VolunteerSignup extends StatelessWidget {
+  VolunteerSignup({super.key});
 
   final nameController = TextEditingController();
   final emailController = TextEditingController();

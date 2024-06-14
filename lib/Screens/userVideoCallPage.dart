@@ -101,7 +101,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
 
   Future<void> _endCall({bool showRating = true}) async {
     try {
-      // Retrieve the volunteer ID from the channel document
+    
       DocumentSnapshot channelSnapshot =
           await _firestore.collection('channels').doc(_channelName).get();
       _volunteerId =
@@ -175,14 +175,14 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
             volunteerSnapshot.data() as Map<String, dynamic>?;
 
         if (volunteerData == null) {
-          // If the volunteer document does not exist, create it
+       
           transaction.set(volunteerRef, {
             'rating': rating,
             'ratingCount': 1,
           });
           print("Volunteer document created with rating: $rating");
         } else {
-          // If the volunteer document exists, update the rating
+         
           double currentRating = volunteerData['rating'] ?? 0.0;
           int ratingCount = volunteerData['ratingCount'] ?? 0;
 

@@ -34,12 +34,12 @@ class _VolunteerHomePageState extends State<VolunteerHomePage> {
       _selectedIndex = index;
     });
 
-    if (index == 2) {
-      // Profile button is tapped
+    if (index == 1) {
+  
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ProfileScreen()), // Navigate to ProfilePage
+            builder: (context) => ProfileScreen()),
       );
     } else if (index == 0) {
       // Browse button is tapped
@@ -47,7 +47,7 @@ class _VolunteerHomePageState extends State<VolunteerHomePage> {
         context,
         MaterialPageRoute(
             builder: (context) =>
-                VolunteerHomePage()), // Navigate to BrowseScreen
+                VolunteerHomePage()), 
       );
     }
   }
@@ -130,10 +130,6 @@ class _VolunteerHomePageState extends State<VolunteerHomePage> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.group),
-            label: 'Connect',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.build),
             label: 'Profile',
           ),
@@ -174,7 +170,7 @@ void _showLogoutConfirmationDialog(BuildContext context) {
 }
 
 void _logoutAndRedirect(BuildContext context) {
-  // Perform logout logic here, e.g., clear user session
+
 
   // Navigate to the sign-in page
   Navigator.pushReplacement(

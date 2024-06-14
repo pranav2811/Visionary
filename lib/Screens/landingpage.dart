@@ -18,6 +18,7 @@ class _LandingPageState extends State<LandingPage> {
   final FlutterTts flutterTts = FlutterTts();
   final stt.SpeechToText _speech = stt.SpeechToText();
   bool _isListening = false;
+  bool _speechEnabled = false;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -29,6 +30,7 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   Future<void> _initializeTTSAndSTT() async {
+    await flutterTts.awaitSpeakCompletion(true); // Ensure TTS completion before continuing
     await _speak(
         "Welcome to BlindApp. Say 'Assistance' or 'Volunteer' to navigate.");
     _startListening();
@@ -49,27 +51,34 @@ class _LandingPageState extends State<LandingPage> {
       onError: (errorNotification) {
         print('onError: $errorNotification');
         if (errorNotification.errorMsg == "error_speech_timeout") {
+          _speak("No input detected, please try again.");
           _tryRestartListening();
         }
       },
     );
     if (available) {
+      _isListening = true;
       _speech.listen(
-          onResult: (result) {
-            setState(() {
-              _isListening = false;
+        onResult: (result) {
+          setState(() {
+            _isListening = false;
+            if (result.recognizedWords.isNotEmpty) {
               _handleCommand(result.recognizedWords.toLowerCase());
-            });
-          },
-          listenFor: Duration(seconds: 30),
-          pauseFor: Duration(seconds: 5),
-          partialResults: true);
+            } else {
+              _speak("No input detected, please try again.");
+              _tryRestartListening();
+            }
+          });
+        },
+        listenFor: Duration(seconds: 30),
+        pauseFor: Duration(seconds: 5),
+        partialResults: true,
+      );
     }
   }
 
   void _tryRestartListening() {
     if (!_isListening) {
-      // Check to ensure we're not already listening
       _isListening = true;
       _startListening();
     }
@@ -82,9 +91,10 @@ class _LandingPageState extends State<LandingPage> {
     } else if (command.contains("volunteer")) {
       _speak("I am here to volunteer selected.");
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => VolunterSignup()));
+          context, MaterialPageRoute(builder: (context) => VolunteerSignup()));
     } else {
       _speak("Command not recognized. Please say 'Assistance' or 'Volunteer'.");
+      _startListening();
     }
   }
 
@@ -186,7 +196,7 @@ class _LandingPageState extends State<LandingPage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => VolunterSignup()));
+                          builder: (context) => VolunteerSignup()));
                 },
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.blue,

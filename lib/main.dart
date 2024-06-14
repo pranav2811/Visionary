@@ -89,7 +89,7 @@ class MyApp extends StatelessWidget {
           return const Scaffold(
             backgroundColor: Colors.white,
             body: Center(child: CircularProgressIndicator()),
-          ); // Loading indicator while connection state is not active
+          );
         },
       ),
     );
