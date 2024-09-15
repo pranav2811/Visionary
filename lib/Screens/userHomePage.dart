@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:blindapp/Screens/profile.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 class UserApp extends StatelessWidget {
   const UserApp({super.key});
 
@@ -30,6 +31,8 @@ class UserHomePage extends StatefulWidget {
 }
 
 class _UserHomePageState extends State<UserHomePage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   int _selectedIndex = 0;
   final FlutterTts _flutterTts = FlutterTts();
   late stt.SpeechToText _speech;
@@ -135,12 +138,28 @@ class _UserHomePageState extends State<UserHomePage> {
       _speak("Switching to camera.");
     }
   }
-
-  void _callVolunteer() {
-    _speak("Connecting to a volunteer.");
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const VideoCallScreen()));
+void _callVolunteer() async {
+  User? user = FirebaseAuth.instance.currentUser;
+  if (user == null) {
+    // Handle user not logged in
+    print("User not logged in");
+    return;
   }
+
+  String userId = user.uid;
+  String channelId = DateTime.now().millisecondsSinceEpoch.toString();
+
+  await FirebaseFirestore.instance.collection('channels').doc(channelId).set({
+    'channelId': channelId,
+    'userId': userId,
+    'isOccupied': false,
+  });
+
+  _speak("Connecting to a volunteer.");
+  Navigator.push(context,
+      MaterialPageRoute(builder: (context) => const VideoCallScreen()));
+}
+
 
   Future<void> _speak(String text) async {
     await _flutterTts.speak(text);

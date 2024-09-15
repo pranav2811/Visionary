@@ -68,55 +68,30 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   void describeImage(String imagePath) async {
-    final String _apiKey =
-        "AIzaSyBUyIbhiLe580IK7pR5ybxTfkj3vGru_9U"; // Use secure storage or environment variables
-
     var client = http.Client();
     try {
-      final imageBytes = File(imagePath).readAsBytesSync();
-      String base64Image = base64Encode(imageBytes);
+      var url =
+          'http://10.0.2.2:8000/describe_image'; // Use 10.0.2.2 for Android emulator
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+      request.files.add(await http.MultipartFile.fromPath('file', imagePath));
 
-      var url = 'https://vision.googleapis.com/v1/images:annotate?key=$_apiKey';
-      var body = jsonEncode({
-        "requests": [
-          {
-            "image": {"content": base64Image},
-            "features": [
-              {"type": "OBJECT_LOCALIZATION", "maxResults": 10}
-            ]
-          }
-        ]
-      });
-
-      var response = await client.post(
-        Uri.parse(url),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: body,
-      );
+      var response = await client.send(request);
+      var responseData = await response.stream.toBytes();
+      var responseString = String.fromCharCodes(responseData);
 
       if (response.statusCode == 200) {
-        var json = jsonDecode(response.body);
-        var annotations = json['responses'][0]['localizedObjectAnnotations'];
-        List<String> descriptions = [];
-        for (var annotation in annotations) {
-          String name = annotation['name'];
-          var vertices = annotation['boundingPoly']['normalizedVertices'];
-          descriptions.add(
-              "$name located at approximately (${(vertices[0]['x'] * 100).toStringAsFixed(0)}%, ${(vertices[0]['y'] * 100).toStringAsFixed(0)}%)");
-        }
-        _imageDescription = descriptions.join(', ');
+        var json = jsonDecode(responseString);
+        _imageDescription = json['description'];
         Fluttertoast.showToast(msg: "Detected information: $_imageDescription");
         if (_imageDescription != null) {
           flutterTts.speak(_imageDescription!);
         }
       } else {
         Fluttertoast.showToast(
-            msg: "Error calling Vision API: ${response.body}");
+            msg: "Error calling BLIP service: ${responseString}");
       }
     } catch (e) {
-      Fluttertoast.showToast(msg: "Failed to call API: $e");
+      Fluttertoast.showToast(msg: "Failed to call BLIP service: $e");
     } finally {
       client.close();
       setState(() {
